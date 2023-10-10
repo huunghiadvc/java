@@ -19,7 +19,12 @@ public class Main {
         for (int j = 0; j < strs.length; j++) {
             baseStr += strs[j];
         }
-
-
+        System.out.println(baseStr);
+        String dayInWeek = "MONDAY";
+        switch (dayInWeek){
+            case "MONDAY":
+                System.out.println("2");
+                break;
+        }
     }
 }
