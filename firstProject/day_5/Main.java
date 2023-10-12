@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Main {
     public static void main(String[] args) {
         int[] arrNumber = new int[5];
@@ -24,5 +26,19 @@ public class Main {
         System.arraycopy(copyFrom, 4, copyTo, 0, 3);
         System.out.println("Array copy from:" + new String(copyFrom));
         System.out.println("Array copy to:" + new String(copyTo));
+
+        Arrays.toString(copyTo); // convert array to string
+
+        int index_2 = Arrays.binarySearch(copyFrom, (char) 20);
+        if (index < 0){
+            // have not result
+        } else {
+            // have result
+        }
+
+        Arrays.fill(copyTo, (char) 1); // assgin all element -> 1
+
+        int[][] arr2 = new int[4][4];
+        System.out.println(arr2.length);
     }
 }

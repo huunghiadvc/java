@@ -13,7 +13,7 @@ public class InputData {
     public static void arrayInputValue(int[] arrNumbers, int a){
         Scanner input = new Scanner(System.in);
         for (int i = 0; i < a; i++) {
-            System.out.printf("Nhap phan tu arrNumbers[%d]", i);
+            System.out.printf("Nhap phan tu arrNumbers[%d]:\n", i);
             arrNumbers[i] = input.nextInt();
         }
     }
