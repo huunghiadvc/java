@@ -1,5 +1,9 @@
+import utils.NumberUtils;
+
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class ArrayList {
@@ -31,34 +35,67 @@ public class ArrayList {
 //        // clear all element
 //        humans.clear();
 
-        Human h1 = new Human("Huu Nghia", 2);
-        Human h2 = new Human("Thi A", 3);
+//        Human h1 = new Human("Huu Nghia", 2);
+//        Human h2 = new Human("Thi A", 3);
+//
+//        List<Human> humans = Arrays.asList(h1, h2); // humans tham chieu den cac phan tu h1, h2
+//
+//        for (Human h : humans) {
+//            System.out.println("name: " + h.getName());
+//        }
+//        h1.setName("Van B");
+//        for (Human h : humans) {
+//            System.out.println("name: " + h.getName());
+//        }
+//        for (int i = 0; i < humans.size(); i++){
+//            System.err.println(humans.get(i));
+//        }
+//
+//        //from java 8 - lambda
+//        humans.forEach(System.err::println);
+//
+//        List<Student> students = new java.util.ArrayList<>();
+//        for (Human h : humans
+//             ) {
+//            Student s = h.grow();
+//            if (h != null){
+//                students.add(s);
+//            }
+//        }
+//        List<Student> studens1 = humans.stream().map(Human::grow).toList();
+        ArrayList.testAddArrayList(10000000);
+    }
 
-        List<Human> humans = Arrays.asList(h1, h2); // humans tham chieu den cac phan tu h1, h2
+    public static void testAddArrayList(int size){
+        Random random = new Random();
+        long startTime = System.currentTimeMillis();
+        List<Integer> numInts = new java.util.ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            numInts.add(random.nextInt());
+        }
+        System.err.println("Time add " + size + " element to list integer: " + (System.currentTimeMillis() - startTime + " ms!"));
 
-        for (Human h : humans) {
-            System.out.println("name: " + h.getName());
+        startTime = System.currentTimeMillis();
+        List<Long> numLongs = new java.util.ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            numLongs.add(random.nextLong());
         }
-        h1.setName("Van B");
-        for (Human h : humans) {
-            System.out.println("name: " + h.getName());
-        }
-        for (int i = 0; i < humans.size(); i++){
-            System.err.println(humans.get(i));
-        }
+        System.err.println("Time add " + size + " element to list long: " + (System.currentTimeMillis() - startTime + " ms!"));
 
-        //from java 8 - lambda
-        humans.forEach(System.err::println);
-
-        List<Student> students = new java.util.ArrayList<>();
-        for (Human h : humans
-             ) {
-            Student s = h.grow();
-            if (h != null){
-                students.add(s);
-            }
+        startTime = System.currentTimeMillis();
+        List<String> numStrings = new java.util.ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            numStrings.add(random.toString());
         }
-        List<Student> studens1 = humans.stream().map(Human::grow).toList();
+        System.err.println("Time add " + size + " element to list string: " + (System.currentTimeMillis() - startTime + " ms!"));
+
+//        startTime = System.currentTimeMillis();
+//        List<Student> students = new java.util.ArrayList<>();
+//        for (int i = 0; i < size; i++) {
+//            students.add(Student.randomStudent());
+//        }
+//        System.err.println("Time add " + size + " element to list string: " + (System.currentTimeMillis() - startTime + " ms!"));
 
     }
+
 }

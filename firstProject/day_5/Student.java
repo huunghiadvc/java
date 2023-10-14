@@ -1,11 +1,22 @@
+import utils.NumberUtils;
+import utils.StringUtils;
+
 public class Student {
     String name;
     private int age;
 
-    public Student(String name, int age) {
+    public Student() {
         this.name = name;
         this.age = age;
     }
+
+    public static Student randomStudent() {
+        Student s = new Student();
+        s.name = StringUtils.randomAlphaNumeric(30);
+        s.age = NumberUtils.randomNumber(1 , 150);
+        return s;
+    }
+
     public String getName() {
         return name;
     }
