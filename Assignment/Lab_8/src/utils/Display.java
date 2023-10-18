@@ -2,6 +2,9 @@ package utils;
 
 public class Display {
     public static void menuDisplay(){
+        System.out.println("/*/");
+        System.out.println("/*/");
+        System.out.println("/*/");
         System.out.println("Select option below:");
         System.out.println("    1. Add student.");
         System.out.println("    2. Show students list.");

@@ -1,5 +1,8 @@
 package entity;
 
+import utils.Display;
+
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Students {
@@ -49,31 +52,73 @@ public class Students {
         this.tel = tel;
     }
 
+    public static void AddStudent(){
+        Scanner input = new Scanner(System.in);
+        int ID = 0;
+        String fullName = null;
+        String address = null;
+        String tel = null;
+        while (true) {
+            try {
+                // Input ID
+                System.out.println("Input student ID: ");
+                ID = Integer.parseInt(input.nextLine());
+
+                // Input name
+                System.out.println("Input student name: ");
+                fullName = input.nextLine();
+
+                // Input address
+                System.out.println("Input student address: ");
+                address = input.nextLine();
+
+                // Input phone number
+                System.out.println("Input student phone number: ");
+                tel = input.nextLine();
+                break;
+            } catch (Exception e) {
+                System.err.println("Invalid data format!!!");
+                input.nextLine();
+            }
+        }
+
+        Students stu = new Students(ID, fullName, address, tel);
+        StudentsList.add(stu);
+        System.out.println("|---------------****---------------|");
+        System.out.println("|---- Add Student Successfully ----|");
+        System.out.println("|----------------****--------------|");
+        Display.menuDisplay();
+    }
+
     public static void editStudentInfor(Students stu, Scanner input){
 
-        String editName = "";
-        String editAddress = "";
-        String editTel = "";
-
+        String editName;
+        String editAddress;
+        String editTel;
         /** Display current student information and enter the information that needs to be edited **/
+        while (true){
+            try {
+                System.out.println("Student fullName: " + stu.fullName);
+                System.out.println("Edit Name: ");
+                editName = input.nextLine();
 
-        System.out.println("Student fullName: " + stu.fullName);
-        System.out.println("Edit Name: " + editName);
-        editName = input.nextLine();
-        input.nextLine();
+                System.out.println("Student address: " + stu.address);
+                System.out.println("Edit Address: ");
+                editAddress = input.nextLine();
 
-        System.out.println("Student address: " + stu.address);
-        System.out.println("Edit Address: " + editAddress);
-        editAddress = input.nextLine();
-
-        System.out.println("Student phone number: " + stu.tel);
-        System.out.println("Edit Phone number: " + editTel);
-        editTel = input.nextLine();
+                System.out.println("Student phone number: " + stu.tel);
+                System.out.println("Edit Phone number: ");
+                editTel = input.nextLine();
+                break;
+            } catch (Exception e){
+                System.err.println("Invalid format.");
+            }
+        }
 
         /** Confirm student data change **/
+        System.err.printf("The student data whose %d will be changed from:", stu.getID());
         System.out.printf(
-                "The student data whose %d will be changed from:\n" +
-                        "\nfullName: %s" +
+                        "fullName: %s" +
                         "\nAddress: %s" +
                         "\nPhone number: %s\n" +
                         "\nTO\n" +
@@ -81,30 +126,27 @@ public class Students {
                         "\nAddress: %s" +
                         "\nPhone number: %s\n" +
                         "\nOLD DA TA WILL BE OVERWRITTEN AND CANNOT BE RESTORE. ARE YOU SURE?" +
-                        "\nInput Y to confirm, or anything to cancel!",
-                        stu.getID(), stu.getFullName(), stu.getAddress(), stu.getTel(),
+                        "\nInput Y to confirm, or anything to cancel!\n",
+                        stu.getFullName(), stu.getAddress(), stu.getTel(),
                         editName, editAddress, editTel
         );
 
         String confirm = "";
         try {
-            confirm = input.nextLine();
+            confirm = input.next();
         } catch (Exception e){
             input.next();
         }
 
         /** Check confirm and change information for student **/
-        if (confirm.equals("Y")){
+        if (Objects.equals(confirm, "Y")){
             stu.setFullName(editName);
             stu.setAddress(editAddress);
             stu.setTel(editTel);
             System.out.println("\nDATA CHANGE SUCCESSFULLY!\n");
         }
 
-    }
-
-    public static void deleteStudent(Students stu, Scanner input){
-
+        Display.menuDisplay();
     }
 
     @Override

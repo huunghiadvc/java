@@ -13,85 +13,68 @@ public class Processing {
         int number = 0;
         int searchID = -1;
         Students stuSearch = new Students();
-        try {
-            number = input.nextInt();
-            switch (number) {
-                case 1:
-                    Processing.AddStudent();
-                    break;
+        while (true){
+            try {
+                number = Integer.parseInt(input.nextLine());
+                switch (number) {
+                    case 1:
+                        Students.AddStudent();
+                        break;
 
-                case 2:
-                    StudentsList.showAllStudents();
-                    break;
+                    case 2:
+                        StudentsList.showAllStudents();
+                        Display.menuDisplay();
+                        break;
 
-                case 3:
-                    System.out.println("Input student ID need to edit: ");
-                    try {
-                        searchID = input.nextInt();
-                    } catch (Exception e){
-                        System.err.println("Plese input integer!");
-                        input.nextInt();
-                    }
-                    stuSearch = StudentsList.searchStudent(searchID);
-                    if (stuSearch != null){
-                        Students.editStudentInfor(stuSearch, input);
-                    }
-                    break;
+                    case 3:
+                        System.out.println("Input student ID need to edit: ");
+                        try {
+                            searchID = input.nextInt();
+                        } catch (Exception e){
+                            System.err.println("Plese input integer!");
+                            input.nextInt();
+                        }
+                        stuSearch = StudentsList.searchStudent(searchID);
+                        if (stuSearch != null){
+                            Students.editStudentInfor(stuSearch, input);
+                        }
+                        break;
 
-                case 4:
-                    System.out.println("Input student ID need to delete: ");
-                    try {
-                        searchID = input.nextInt();
-                    } catch (Exception e){
-                        System.err.println("Plese input integer!");
-                        input.nextInt();
-                    }
-                    stuSearch = StudentsList.searchStudent(searchID);
-                    if (stuSearch != null) {
-                        StudentsList.deleteStudent(stuSearch, input);
-                    }
-                    break;
+                    case 4:
+                        System.out.println("Input student ID need to delete: ");
+                        while (true){
+                            try {
+                                searchID = Integer.parseInt(input.nextLine());
+                                stuSearch = StudentsList.searchStudent(searchID);
+                                break;
+                            } catch (Exception e){
+                                System.err.println("Plese input integer!");
+                                input.nextLine();
+                            }
+                        }
+                        if (stuSearch != null) {
+                            StudentsList.deleteStudent(stuSearch, input);
+                        }
+                        break;
 
-                case 5:
-                    System.out.println("Input Y to exit the program, input anything to cancel.");
-                    String userConfirm = input.next();
-                    if (Objects.equals(userConfirm, "Y")) {
-                        System.exit(0);
-                    } else {
-                        System.out.println("---------------*********---------------");
-                    }
-                    break;
-                default:
-                    System.err.println("Please select options 1-5!!!");
-                    break;
+                    case 5:
+                        System.out.println("Input Y to exit the program, input anything to cancel.");
+                        String userConfirm = input.next();
+                        if (Objects.equals(userConfirm, "Y")) {
+                            System.exit(0);
+                        } else {
+                            System.out.println("---------------*********---------------");
+                        }
+                        break;
+                    default:
+                        System.err.println("Please select options 1-5!!!");
+                        break;
+                }
+            } catch (Exception ex){
+                input.nextLine();
             }
-        } catch (Exception ex){
-            input.nextLine();
-        }
-    }
-    public static void AddStudent(){
-        Scanner input = new Scanner(System.in);
-        int ID = 0;
-        String fullName = null;
-        String address = null;
-        String tel = null;
-        try {
-            System.out.println("Input student ID: ");
-            ID = input.nextInt();
-            input.nextLine();
-            System.out.println("Input student name: ");
-            fullName = input.nextLine();
-            System.out.println("Input student address: ");
-            address = input.nextLine();
-            System.out.println("Input student phone number: ");
-            tel = input.nextLine();
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            input.nextLine();
         }
 
-        Students stu = new Students(ID, fullName, address, tel);
-        StudentsList.add(stu);
     }
 
 }

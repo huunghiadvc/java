@@ -1,7 +1,10 @@
 package entity;
 
+import utils.Display;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class StudentsList {
@@ -31,9 +34,9 @@ public class StudentsList {
     }
 
     public static void deleteStudent(Students stu, Scanner input){
+        System.err.println("THE STUDENT HAVE INFORMATION BELOW WILL BE REMOVE: \n");
         System.out.printf(
-                "THE STUDENT HAVE INFORMATION BELOW WILL BE REMOVE: \n" +
-                        "\nStudent ID: %d" +
+                        "Student ID: %d" +
                         "\nStudent fullName: %s" +
                         "\nStudent address: %s" +
                         "\nStudent phone number: %s\n" +
@@ -42,12 +45,21 @@ public class StudentsList {
                 stu.getID(), stu.getFullName(), stu.getAddress(), stu.getTel()
         );
         String confirm = "";
-        try {
-            confirm = input.nextLine();
-        } catch (Exception e){
-            input.next();
+        while (true){
+            try {
+                confirm = input.nextLine();
+                break;
+            } catch (Exception e){
+                input.nextLine();
+            }
         }
-        studentsList.remove(stu);
+        if (Objects.equals(confirm, "Y")){
+            studentsList.remove(stu);
+            System.out.println("|---------------***---------------|");
+            System.out.println("|---Delete Student Successfully---|");
+            System.out.println("|---------------***---------------|");
+        }
+        Display.menuDisplay();
     }
 
 }
