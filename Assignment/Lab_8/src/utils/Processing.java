@@ -11,6 +11,8 @@ public class Processing {
     public static void getUserChoose(){
         Scanner input = new Scanner(System.in);
         int number = 0;
+        int searchID = -1;
+        Students stuSearch = new Students();
         try {
             number = input.nextInt();
             switch (number) {
@@ -23,10 +25,31 @@ public class Processing {
                     break;
 
                 case 3:
+                    System.out.println("Input student ID need to edit: ");
+                    try {
+                        searchID = input.nextInt();
+                    } catch (Exception e){
+                        System.err.println("Plese input integer!");
+                        input.nextInt();
+                    }
+                    stuSearch = StudentsList.searchStudent(searchID);
+                    if (stuSearch != null){
+                        Students.editStudentInfor(stuSearch, input);
+                    }
                     break;
 
                 case 4:
-                    System.out.println("user choose 1-4");
+                    System.out.println("Input student ID need to delete: ");
+                    try {
+                        searchID = input.nextInt();
+                    } catch (Exception e){
+                        System.err.println("Plese input integer!");
+                        input.nextInt();
+                    }
+                    stuSearch = StudentsList.searchStudent(searchID);
+                    if (stuSearch != null) {
+                        StudentsList.deleteStudent(stuSearch, input);
+                    }
                     break;
 
                 case 5:
