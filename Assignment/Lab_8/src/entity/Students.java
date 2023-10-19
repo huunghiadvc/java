@@ -94,7 +94,6 @@ public class Students {
                     tel = input.nextLine();
                     if (tel.length() != 7){
                         System.err.println("Phone numbers need 7 digits!");
-                        continue;
                     }
                     if (!tel.matches(".*[0-9].*")) {
                         System.err.println("Phone numbers cannot contain letters or characters!");
@@ -122,20 +121,23 @@ public class Students {
         /** Display current student information and enter the information that needs to be edited **/
         while (true){
             try {
+                System.out.println("---");
                 System.out.println("Student fullName: " + stu.fullName);
                 System.out.println("Edit Name: ");
                 editName = input.nextLine();
 
+                System.out.println("---");
                 System.out.println("Student address: " + stu.address);
                 System.out.println("Edit Address: ");
                 editAddress = input.nextLine();
 
+                System.out.println("---");
                 System.out.println("Student phone number: " + stu.tel);
                 System.out.println("Edit Phone number: ");
                 editTel = input.nextLine();
                 break;
             } catch (Exception e){
-                System.err.println("Invalid format.");
+                System.out.println(e.getMessage());
             }
         }
 
@@ -158,10 +160,10 @@ public class Students {
         String confirm;
         while (true){
             try {
-                confirm = input.next();
+                confirm = input.nextLine();
                 break;
             } catch (Exception e){
-                input.next();
+                input.nextLine();
             }
         }
 
@@ -173,7 +175,6 @@ public class Students {
             System.err.println("\nDATA CHANGE SUCCESSFULLY!\n");
         }
 
-        Display.menuDisplay();
     }
 
     @Override

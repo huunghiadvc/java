@@ -2,17 +2,15 @@ package utils;
 
 import entity.Students;
 import entity.StudentsList;
-
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class Processing {
     public static void getUserChoose(){
         Scanner input = new Scanner(System.in);
-        int number = 0;
+        int number;
         int searchID = -1;
-        Students stuSearch = new Students();
+        Students stuSearch;
         while (true){
             try {
                 number = Integer.parseInt(input.nextLine());
@@ -28,11 +26,14 @@ public class Processing {
 
                     case 3:
                         System.out.println("Input student ID need to edit: ");
-                        try {
-                            searchID = Integer.parseInt(input.nextLine());
-                        } catch (Exception e){
-                            System.err.println("Plese input integer!");
-                            input.nextInt();
+                        while (true){
+                            try {
+                                searchID = Integer.parseInt(input.nextLine());
+                                break;
+                            } catch (Exception e){
+                                System.err.println("Plese input integer!");
+                                input.nextInt();
+                            }
                         }
                         stuSearch = StudentsList.searchStudent(searchID);
                         if (stuSearch != null){
