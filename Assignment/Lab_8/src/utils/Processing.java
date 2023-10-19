@@ -29,7 +29,7 @@ public class Processing {
                     case 3:
                         System.out.println("Input student ID need to edit: ");
                         try {
-                            searchID = input.nextInt();
+                            searchID = Integer.parseInt(input.nextLine());
                         } catch (Exception e){
                             System.err.println("Plese input integer!");
                             input.nextInt();

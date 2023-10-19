@@ -33,6 +33,15 @@ public class StudentsList {
         return null;
     }
 
+    public static int checkStudentID(int checkID){
+        for (Students stu: studentsList) {
+            if (checkID == stu.getID()){
+                return 1;
+            }
+        }
+        return 0;
+    }
+
     public static void deleteStudent(Students stu, Scanner input){
         System.err.println("THE STUDENT HAVE INFORMATION BELOW WILL BE REMOVE: \n");
         System.out.printf(

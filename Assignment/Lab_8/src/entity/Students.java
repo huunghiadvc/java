@@ -61,32 +61,56 @@ public class Students {
         while (true) {
             try {
                 // Input ID
-                System.out.println("Input student ID: ");
-                ID = Integer.parseInt(input.nextLine());
+                int check = 1;
+                while (check == 1){
+                    System.out.println("Input student ID: ");
+                    ID = Integer.parseInt(input.nextLine());
+                    check = StudentsList.checkStudentID(ID);
+                    if (check == 1){
+                        System.err.println("Students ID already exists! \nPlease try again!");
+                    }
+                }
 
                 // Input name
-                System.out.println("Input student name: ");
-                fullName = input.nextLine();
+                check = 1;
+                while (check == 1){
+                    System.out.println("Input student name: ");
+                    fullName = input.nextLine();
+                    if (fullName.matches(".*[a-zA-Z].*")) {
+                        check = 0;
+                    } else {
+                        System.err.println("Invalid format fullName!");
+                    }
+                }
 
                 // Input address
                 System.out.println("Input student address: ");
                 address = input.nextLine();
 
                 // Input phone number
-                System.out.println("Input student phone number: ");
-                tel = input.nextLine();
+                check = 1;
+                while (check == 1){
+                    System.out.println("Input student phone number: ");
+                    tel = input.nextLine();
+                    if (tel.length() != 7){
+                        System.err.println("Phone numbers need 7 digits!");
+                        continue;
+                    }
+                    if (!tel.matches(".*[0-9].*")) {
+                        System.err.println("Phone numbers cannot contain letters or characters!");
+                        continue;
+                    }
+                    check = 0;
+                }
                 break;
             } catch (Exception e) {
-                System.err.println("Invalid data format!!!");
                 input.nextLine();
             }
         }
 
         Students stu = new Students(ID, fullName, address, tel);
         StudentsList.add(stu);
-        System.out.println("|---------------****---------------|");
-        System.out.println("|---- Add Student Successfully ----|");
-        System.out.println("|----------------****--------------|");
+        System.err.println("|---- Add Student Successfully ----|");
         Display.menuDisplay();
     }
 
@@ -116,7 +140,7 @@ public class Students {
         }
 
         /** Confirm student data change **/
-        System.err.printf("The student data whose %d will be changed from:", stu.getID());
+        System.err.printf("The data of student have ID %d will be changed from:\n", stu.getID());
         System.out.printf(
                         "fullName: %s" +
                         "\nAddress: %s" +
@@ -131,11 +155,14 @@ public class Students {
                         editName, editAddress, editTel
         );
 
-        String confirm = "";
-        try {
-            confirm = input.next();
-        } catch (Exception e){
-            input.next();
+        String confirm;
+        while (true){
+            try {
+                confirm = input.next();
+                break;
+            } catch (Exception e){
+                input.next();
+            }
         }
 
         /** Check confirm and change information for student **/
@@ -143,7 +170,7 @@ public class Students {
             stu.setFullName(editName);
             stu.setAddress(editAddress);
             stu.setTel(editTel);
-            System.out.println("\nDATA CHANGE SUCCESSFULLY!\n");
+            System.err.println("\nDATA CHANGE SUCCESSFULLY!\n");
         }
 
         Display.menuDisplay();
