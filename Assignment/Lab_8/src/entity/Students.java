@@ -2,6 +2,7 @@ package entity;
 
 import utils.Display;
 
+import java.util.Date;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -10,6 +11,10 @@ public class Students {
     private String fullName;
     private String address;
     private String tel;
+    private Date dateOfBirth;
+    private Date enterDate;
+    private int age;
+    private int ageLevel;
 
     public Students() {
     }
@@ -52,11 +57,44 @@ public class Students {
         this.tel = tel;
     }
 
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public Date getEnterDate() {
+        return enterDate;
+    }
+
+    public void setEnterDate(Date enterDate) {
+        this.enterDate = enterDate;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public int getAgeLevel() {
+        return ageLevel;
+    }
+
+    public void setAgeLevel(int ageLevel) {
+        this.ageLevel = ageLevel;
+    }
+
     public static void AddStudent(){
         Scanner input = new Scanner(System.in);
         int ID = 0;
         String fullName = null;
         String address = null;
+        String dateOfBirth = null;
         String tel = null;
         while (true) {
             try {
@@ -77,6 +115,17 @@ public class Students {
                     System.out.println("Input student name: ");
                     fullName = input.nextLine();
                     if (fullName.matches(".*[a-zA-Z].*")) {
+                        check = 0;
+                    } else {
+                        System.err.println("Invalid format fullName!");
+                    }
+                }
+
+                check++;
+                while (check == 1){
+                    System.out.println("Input student date of birth: ");
+                    dateOfBirth = input.nextLine();
+                    if (dateOfBirth.matches(".*[0-9].*")) {
                         check = 0;
                     } else {
                         System.err.println("Invalid format fullName!");
