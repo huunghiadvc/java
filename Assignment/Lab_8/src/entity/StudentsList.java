@@ -64,9 +64,7 @@ public class StudentsList {
         }
         if (Objects.equals(confirm, "Y")){
             studentsList.remove(stu);
-            System.out.println("|---------------***---------------|");
-            System.out.println("|---Delete Student Successfully---|");
-            System.out.println("|---------------***---------------|");
+            System.err.println("|---Delete Student Successfully---|");
         }
         Display.menuDisplay();
     }

@@ -1,5 +1,4 @@
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 
 public class LocalDateExample {
     public static void main(String[] args) {
@@ -27,6 +26,7 @@ public class LocalDateExample {
         System.err.println(localDateTime);
         LocalDate localDate1 = LocalDate.now();
         LocalDate localDate2 = LocalDate.of(2014, 10, 2);
+        System.err.println(localDate2.getMonthValue());
         Period period = Period.between(localDate2, localDate1);
         int days = period.getDays();
 

@@ -2,6 +2,8 @@ package utils;
 
 import entity.Students;
 import entity.StudentsList;
+
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -78,4 +80,30 @@ public class Processing {
 
     }
 
+    public static int ageCaculator(LocalDate dateOfBirth , LocalDate dayNow){
+        if (dayNow.getMonthValue() > dateOfBirth.getMonthValue()){
+            return dayNow.getYear() - dateOfBirth.getYear();
+        } else if (dayNow.getMonthValue() < dateOfBirth.getMonthValue()){
+            return dayNow.getYear() - dateOfBirth.getYear() - 1;
+        } else {
+            boolean checkDay = dayNow.getDayOfMonth() >= dateOfBirth.getDayOfMonth();
+            if (checkDay){
+                return dayNow.getYear() - dateOfBirth.getYear();
+            } else {
+                return dayNow.getYear() - dateOfBirth.getYear() - 1;
+            }
+        }
+    }
+
+    public static int checkAgeLevel(int age){
+        if (age >= 6 && age <= 10){
+            return 1;
+        } else if (age <= 14) {
+            return 2;
+        } else if (age <= 17) {
+            return 3;
+        } else {
+            return 4;
+        }
+    }
 }
