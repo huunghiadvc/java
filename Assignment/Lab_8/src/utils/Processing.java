@@ -80,10 +80,12 @@ public class Processing {
 
     }
 
-    public static int ageCaculator(LocalDate dateOfBirth , LocalDate dayNow){
+    public static int ageCaculator(LocalDate dateOfBirth){
+        LocalDate dayNow = LocalDate.now();
         if (dayNow.getMonthValue() > dateOfBirth.getMonthValue()){
             return dayNow.getYear() - dateOfBirth.getYear();
-        } else if (dayNow.getMonthValue() < dateOfBirth.getMonthValue()){
+        }
+        if (dayNow.getMonthValue() < dateOfBirth.getMonthValue()){
             return dayNow.getYear() - dateOfBirth.getYear() - 1;
         } else {
             boolean checkDay = dayNow.getDayOfMonth() >= dateOfBirth.getDayOfMonth();
@@ -106,4 +108,8 @@ public class Processing {
             return 4;
         }
     }
+
+
+
+
 }

@@ -2,10 +2,8 @@ package entity;
 
 import utils.Display;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class StudentsList {
     private static List<Students> studentsList = new ArrayList<>();
@@ -68,5 +66,27 @@ public class StudentsList {
         }
         Display.menuDisplay();
     }
+
+    public static void sortStudentName(){
+        List<String> stuName = new ArrayList<>();
+        for (int i = 0; i < studentsList.size(); i++){
+            stuName.add(studentsList.get(i).getFullName());
+        }
+
+        List<String> stuName2 = null;
+        stuName2 = studentsList.stream().map(Students::getFullName).collect(Collectors.toList());
+
+        stuName.sort(String::compareTo);
+
+        System.out.println(studentsList);
+
+
+    }
+
+//    public static int compareTo (String s1, String s2){
+//
+//    }
+
+
 
 }

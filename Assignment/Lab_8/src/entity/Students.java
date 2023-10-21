@@ -225,8 +225,7 @@ public class Students {
                 System.out.println("Edit enterDate (yyyy/dd/mm): ");
                 editEnterDate = LocalDate.parse(input.nextLine());
 
-                LocalDate dateNow = LocalDate.now();
-                updateAge = Processing.ageCaculator(editEnterDate, dateNow);
+                updateAge = Processing.ageCaculator(editEnterDate);
                 updateAgelevel = Processing.checkAgeLevel(updateAge);
                 break;
             } catch (Exception e){

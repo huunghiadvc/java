@@ -1,5 +1,5 @@
 
-public class Human {
+public class Human22 {
 
     private String name;
     int age;
@@ -49,7 +49,7 @@ public class Human {
     }
 
     public static void main(String[] args) {
-        Human john = new Human(); // contractor - hàm tạo no args ( không tham số )
+        Human22 john = new Human22(); // contractor - hàm tạo no args ( không tham số )
         john.name = "John Nguyen";
         john.age = 18;
         john.address = "Ha Noi";
