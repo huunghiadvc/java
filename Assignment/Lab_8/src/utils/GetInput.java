@@ -25,8 +25,14 @@ public class GetInput {
 
     public static LocalDate getDate(){
         LocalDate value;
-
-        value = LocalDate.parse(input.nextLine());
+        while (true){
+            try {
+                value = LocalDate.parse(input.nextLine());
+                break;
+            } catch (Exception e) {
+                System.err.println("Invalid date format, please try again!");
+            }
+        }
 
         return value;
     }

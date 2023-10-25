@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class Students {
-    private int ID;
+    private String ID;
     private String fullName;
     private String address;
     private String tel;
@@ -18,11 +18,11 @@ public class Students {
     public Students() {
     }
 
-    public int getID() {
+    public String getID() {
         return ID;
     }
 
-    public void setID(int ID) {
+    public void setID(String ID) {
         this.ID = ID;
     }
 
@@ -115,31 +115,31 @@ public class Students {
         Students stu = new Students();
             // Input ID
             while (true){
-                try {
-                    System.out.println("Input student ID: ");
-                    stu.ID = GetInput.getInt();
-                } catch (Exception e) {
+                System.out.println("Input student ID: ");
+                stu.ID = GetInput.getString();
+                boolean checkList = StudentsList.checkListEmty();
+                if (!stu.getID().matches(".*[0-9].*")){
                     System.err.println("Invalid ID format!!!");
-                    GetInput.getInt();
+                    continue;
                 }
-                if (StudentsList.checkListEmty()){
-                    if (StudentsList.checkStudentID(stu.ID)) {
+                if(checkList){
+                    if (StudentsList.checkStudentID(Integer.parseInt(stu.ID))) {
                         System.err.println("Students ID already exists! \nPlease try again!");
+                        continue;
                     }
-                } else {
-                    break;
                 }
+                break;
             }
 
             // Input name
             while (true){
                 System.out.println("Input student name: ");
                 stu.fullName = GetInput.getString();
-                if (stu.fullName.matches(".*[a-zA-Z].*")) {
-                    break;
-                } else {
+                if (!stu.fullName.matches(".*[a-zA-Z].*")) {
                     System.err.println("Invalid format fullName!");
+                    continue;
                 }
+                break;
             }
 
             // Input address
@@ -178,7 +178,7 @@ public class Students {
                 stu.enterDate = GetInput.getDate();
                 LocalDate dayNow = LocalDate.now();
                 if (stu.enterDate.getYear() < 2000 || dayNow.getYear() < stu.enterDate.getYear()){
-                    System.err.println("Invalid birth year!!!");
+                    System.err.println("Invalid enter date!!!");
                     continue;
                 }
                 stu.ageLevel = checkAgeLevel(stu.enterDate);

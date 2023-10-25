@@ -5,9 +5,7 @@ import utils.GetInput;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
-import java.util.ArrayList;
+import java.util.*;
 
 public class StudentsList {
     private static List<Students> studentsList = getBatchStudent();
@@ -16,11 +14,12 @@ public class StudentsList {
         StudentsList.studentsList = studentsList;
     }
 
-    public static void showStudentsList(int Type){
+    public static void showStudentsList(int userChoose){
         LocalDate dayNow = LocalDate.now();
-        switch (Type) {
+        switch (userChoose) {
             case 1:
-                for (Students stu: studentsList) {
+                studentsList.sort(Comparator.comparingInt(left -> Integer.parseInt(left.getID())));
+                for (Students stu : studentsList) {
                     System.out.println(stu.toString());
                 }
                 break;
@@ -70,7 +69,7 @@ public class StudentsList {
 
     public static Students searchStudent(int searchID){
         for (Students stu: studentsList) {
-            if (searchID == stu.getID()){
+            if (searchID == Integer.parseInt(stu.getID())){
                 return stu;
             }
         }
@@ -79,7 +78,7 @@ public class StudentsList {
 
     public static boolean checkStudentID(int checkID){
         for (Students stu: studentsList) {
-            if (checkID == stu.getID()){
+            if (checkID == Integer.parseInt(stu.getID())){
                 return true;
             }
         }
