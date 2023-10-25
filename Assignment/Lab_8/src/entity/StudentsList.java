@@ -1,25 +1,71 @@
 package entity;
 
 import utils.Display;
-
-import java.util.*;
-import java.util.stream.Collectors;
+import utils.GetInput;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
+import java.util.ArrayList;
 
 public class StudentsList {
-    private static List<Students> studentsList = new ArrayList<>();
+    private static List<Students> studentsList = getBatchStudent();
 
     public StudentsList(List<Students> studentsList) {
         StudentsList.studentsList = studentsList;
     }
 
-    public static void add(Students stu) {
-        studentsList.add(stu);
+    public static void showStudentsList(int Type){
+        LocalDate dayNow = LocalDate.now();
+        switch (Type) {
+            case 1:
+                for (Students stu: studentsList) {
+                    System.out.println(stu.toString());
+                }
+                break;
+
+            case 2:
+                int birthYear = 0;
+                while (true){
+                    System.out.println("Nhập năm sinh: ");
+                    birthYear = GetInput.getInt();
+                    if (birthYear < 1950 || birthYear > 2010) {
+                        System.err.println("Invalid year!!!");
+                        continue;
+                    }
+                    break;
+                }
+                for (Students stu: studentsList) {
+                    if (stu.getDateOfBirth().getYear() == birthYear){
+                        System.out.println(stu);
+                    }
+                }
+                break;
+
+            case 3:
+                int enterYear = 0;
+                while (true){
+                    System.out.println("Nhập năm nhập học: ");
+                    enterYear = GetInput.getInt();
+                    if (enterYear < 2010 || enterYear > dayNow.getYear()) {
+                        System.err.println("Invalid year!!!");
+                        continue;
+                    }
+                    break;
+                }
+                for (Students stu: studentsList) {
+                    if (stu.getDateOfBirth().getYear() == enterYear){
+                        System.out.println(stu);
+                    }
+                }
+                break;
+
+        }
     }
 
-    public static void showAllStudents(){
-        for (Students stu: studentsList) {
-            System.out.println(stu.toString());
-        }
+    public static boolean checkListEmty(){
+        return !studentsList.isEmpty();
     }
 
     public static Students searchStudent(int searchID){
@@ -31,16 +77,16 @@ public class StudentsList {
         return null;
     }
 
-    public static int checkStudentID(int checkID){
+    public static boolean checkStudentID(int checkID){
         for (Students stu: studentsList) {
             if (checkID == stu.getID()){
-                return 1;
+                return true;
             }
         }
-        return 0;
+        return false;
     }
 
-    public static void deleteStudent(Students stu, Scanner input){
+    public static void deleteStudent(Students stu){
         System.err.println("THE STUDENT HAVE INFORMATION BELOW WILL BE REMOVE: \n");
         System.out.printf(
                         "Student ID: %d" +
@@ -54,10 +100,10 @@ public class StudentsList {
         String confirm = "";
         while (true){
             try {
-                confirm = input.nextLine();
+                confirm = GetInput.getString();
                 break;
             } catch (Exception e){
-                input.nextLine();
+                GetInput.getString();
             }
         }
         if (Objects.equals(confirm, "Y")){
@@ -67,25 +113,20 @@ public class StudentsList {
         Display.menuDisplay();
     }
 
-    public static void sortStudentName(){
-        List<String> stuName = new ArrayList<>();
-        for (int i = 0; i < studentsList.size(); i++){
-            stuName.add(studentsList.get(i).getFullName());
+    public static List<Students> getBatchStudent(){
+        if (studentsList == null){
+            studentsList = new ArrayList<>();
         }
-
-        List<String> stuName2 = null;
-        stuName2 = studentsList.stream().map(Students::getFullName).collect(Collectors.toList());
-
-        stuName.sort(String::compareTo);
-
-        System.out.println(studentsList);
-
-
+        return studentsList;
     }
 
-//    public static int compareTo (String s1, String s2){
-//
-//    }
+    public static void getOutputTxt() throws IOException {
+        FileWriter writer = new FileWriter("output.txt");
+        for(Students stu : studentsList) {
+            writer.write(stu + System.lineSeparator());
+        }
+        writer.close();
+    }
 
 
 
