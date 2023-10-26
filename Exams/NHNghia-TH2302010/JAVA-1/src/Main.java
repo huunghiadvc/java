@@ -1,5 +1,6 @@
 import entity.Product;
 
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
@@ -19,51 +20,43 @@ public class Main {
         productsList.add(iPhone);
         productsList.add(football);
 
+        Order order1 = new Order();
+        order1.setCustomerName("Mike Tyson");
+        LocalDateTime timeOrder = LocalDateTime.of(2023, Month.AUGUST, 8, 11, 30, 0);
+        order1.setTransactionTime(timeOrder);
+
         LineItem[] lineItemsMikeTyson = {
                 new LineItem(tomato, 5),
                 new LineItem(iPhone, 2),
                 new LineItem(football, 4)
         };
-
-        ArrayList<LineItem> mikeTysonOrder = new ArrayList<>();
-        while (true){
-            try {
-                mikeTysonOrder = new ArrayList<>(Arrays.asList(lineItemsMikeTyson));
-                System.out.println("ADD DATA SUCCESSFULLY!");
-                break;
-            } catch (Exception e) {
-                System.err.println("Add data failed!");
+        for (LineItem item: lineItemsMikeTyson) {
+            if (order1.addProduct(item.getProduct(), item.getQuantity())) {
+                System.out.println(order1.getCustomerName() + " order " + item.getQuantity() + " " + item.getProduct().getName() + " successfully\n");
+            } else {
+                System.out.println(order1.getCustomerName() + " order " + item.getQuantity() + " " + item.getProduct().getName() + " failed");
             }
         }
-
-        Order order1 = new Order();
-        order1.setCustomerName("Mike Tyson");
-        LocalDateTime timeOrder = LocalDateTime.of(2023, Month.AUGUST, 8, 11, 30, 0);
-        order1.setTransactionTime(timeOrder);
-        order1.setLineItem(mikeTysonOrder);
 
         System.out.println(order1);
 
-        LineItem[] lineItemsChrisEvan = {
-                new LineItem(zaraShirt, 3),
-                new LineItem(iPhone, 3)
-        };
-        ArrayList<LineItem> deliceryChrisEvan;
-        while (true){
-            try {
-                deliceryChrisEvan = new ArrayList<>(Arrays.asList(lineItemsChrisEvan));
-                System.out.println("ADD DELIVERY OF CHRIS EVAN SUCCESSFULLY!");
-                break;
-            } catch (Exception e) {
-                System.err.println("Add data failed!");
-            }
-        }
         Order order2 = new Order();
         order2.setCustomerName("Chris Evans");
         order2.setAddress("123 Cau Giay");
         LocalDateTime timeDelivery = LocalDateTime.of(2023, Month.AUGUST, 9, 13, 14, 0);
         order2.setTransactionTime(timeDelivery);
-        order2.setLineItem(deliceryChrisEvan);
+
+        LineItem[] lineItemsChrisEvan = {
+                new LineItem(zaraShirt, 3),
+                new LineItem(iPhone, 3)
+        };
+        for (LineItem item: lineItemsChrisEvan) {
+            if (order2.addProduct(item.getProduct(), item.getQuantity())) {
+                System.out.println(order2.getCustomerName() + " order " + item.getQuantity() + " " + item.getProduct().getName() + " successfully\n");
+            } else {
+                System.out.println(order2.getCustomerName() + " order " + item.getQuantity() + " " + item.getProduct().getName() + " failed");
+            }
+        }
 
         System.out.println(order2);
 

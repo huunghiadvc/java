@@ -60,7 +60,7 @@ public class Product {
 
     @Override
     public String toString(){
-        return  " | SKU: " + sku + " | Name: " + name + " | Category: " + category +
-                " | Price: " + price + " | Quantity: " + quantity;
+        return  " | SKU: " + sku + " | Name: " + name + " | Category: " + this.category
+                + " | Price: " + price + " | Quantity: " + quantity;
     }
 }
