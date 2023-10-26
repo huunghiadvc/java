@@ -64,7 +64,7 @@ public class Order extends DeliveryOrder {
         double total = 0;
         for (LineItem item: lineItem) {
             assert false;
-            total += LineItem.cost(item.getProduct().getPrice(), item.getProduct().getQuantity());
+            total += LineItem.cost(item.getProduct().getPrice(), item.getQuantity());
             result.append("\n\n\t| Product name: ").append(item.getProduct().getName())
                     .append("\n\t| Transaction time: ").append(transactionTime)
                     .append("\n\t| Category: ").append(item.getProduct().getCategory())

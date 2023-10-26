@@ -32,9 +32,11 @@ public class Main {
         };
         for (LineItem item: lineItemsMikeTyson) {
             if (order1.addProduct(item.getProduct(), item.getQuantity())) {
-                System.out.println(order1.getCustomerName() + " order " + item.getQuantity() + " " + item.getProduct().getName() + " successfully\n");
+                System.out.println(order1.getCustomerName() + " order " + item.getQuantity() +
+                        " " + item.getProduct().getName() + " successfully\n");
             } else {
-                System.out.println(order1.getCustomerName() + " order " + item.getQuantity() + " " + item.getProduct().getName() + " failed");
+                System.out.println(order1.getCustomerName() + " order " + item.getQuantity() +
+                        " " + item.getProduct().getName() + " failed!" + "\n Not enough quantity!");
             }
         }
 
