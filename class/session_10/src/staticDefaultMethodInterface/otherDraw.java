@@ -5,4 +5,5 @@ public interface otherDraw {
     default void setColor(String color){
         System.err.println(color);
     };
+
 }

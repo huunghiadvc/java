@@ -112,7 +112,7 @@ public class StudentsList {
         Display.menuDisplay();
     }
 
-    public static List<Students> getBatchStudent(){
+    private static List<Students> getBatchStudent(){
         if (studentsList == null){
             studentsList = new ArrayList<>();
         }
@@ -128,5 +128,7 @@ public class StudentsList {
     }
 
 
-
+    public static void add(Students stu) {
+        studentsList.add(stu);
+    }
 }

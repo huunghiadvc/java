@@ -185,7 +185,7 @@ public class Students {
                 break;
             }
 
-        StudentsList.getBatchStudent().add(stu);
+        StudentsList.add(stu);
         System.err.println("|---- Add Student Successfully ----|");
     }
 
