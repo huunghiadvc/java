@@ -2,6 +2,7 @@ package entity;
 
 import utils.GetInput;
 
+import java.io.PrintStream;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -86,18 +87,19 @@ public class Students {
         int age = 0;
         LocalDate dayNow = LocalDate.now();
 
-        /** TH: đã qua tháng sinh nhật **/
+        // TH: đã qua tháng sinh nhật //
+
         if (dayNow.getMonthValue() > dateOfBirth.getMonthValue()){
             age = dayNow.getYear() - dateOfBirth.getYear();
         }
-        /** TH: chưa đến tháng sinh nhật **/
+        // TH: chưa đến tháng sinh nhật //
         else if (dayNow.getMonthValue() < dateOfBirth.getMonthValue()){
             age = dayNow.getYear() - dateOfBirth.getYear() - 1;
         }
-        /** TH: đang trong tháng sinh nhật **/
+        // TH: đang trong tháng sinh nhật //
         else {
-            boolean checkDay = dayNow.getDayOfMonth() >= dateOfBirth.getDayOfMonth();
-            if (checkDay){
+            // TH: đang hoặc đã qua ngày sinh nhật //
+            if (dayNow.getDayOfMonth() >= dateOfBirth.getDayOfMonth()){
                 age = dayNow.getYear() - dateOfBirth.getYear();
             } else {
                 age = dayNow.getYear() - dateOfBirth.getYear() - 1;
@@ -212,7 +214,7 @@ public class Students {
         String updateAgelevel;
         LocalDate dayNow = LocalDate.now();
 
-        /** Display current student information and enter the information that needs to be edited **/
+        // Display current student information and enter the information that needs to be edited //
 
         while (true){
             System.out.println("---");
@@ -274,32 +276,30 @@ public class Students {
 
 
 
-        /** Confirm student data change **/
+        // Confirm student data change //
+        System.err.printf("THE INFORMATION OF STUDENT HAVE ID %S WILL BE CHANGE FROM: \n", stu.getID());
         System.out.printf(
-                """
+                """                            
                         
-                    THE INFORMATION OF STUDENT HAVE ID 1 WILL BE CHANGE FROM:
-                    
-                        fullName: %sAddress: %s
-                        Phone number: %s
-                        dateOfBirth: %s
-                        enterDate: %s
-                        Age: %s
-                        Age Level: %s
+                                fullName: %s
+                                Address: %s
+                                Phone number: %s
+                                dateOfBirth: %s
+                                enterDate: %s
+                                Age: %s
+                                Age Level: %s
+                                
+                            TO
 
-                    TO
-
-                        fullName: %sAddress: %s
-                        Phone number: %s
-                        dateOfBirth: %s
-                        enterDate: %s
-                        Age: %s
-                        Age Level: %s
-
-                    OLD DA TA WILL BE OVERWRITTEN AND CANNOT BE RESTORE. ARE YOU SURE?
-                    Input Y to confirm, or anything to cancel!
-                """,
-                stu.getID(), stu.getFullName(), stu.getAddress(), stu.getTel(),
+                                fullName: %s
+                                Address: %s
+                                Phone number: %s
+                                dateOfBirth: %s
+                                enterDate: %s
+                                Age: %s
+                                Age Level: %s
+                        """,
+                stu.getFullName(), stu.getAddress(), stu.getTel(),
                 stu.getDateOfBirth(), stu.getEnterDate(), stu.getAge(), stu.getAgeLevel(),
                 updateName, updateAddress, updateTel, updateDateOfBirth,
                 updateEnterDate, updateAge, updateAgelevel
@@ -315,7 +315,7 @@ public class Students {
             }
         }
 
-        /** Check confirm and change information for student **/
+        // Check confirm and change information for student //
         if (Objects.equals(confirm.toUpperCase(), "Y")){
             stu.setFullName(updateName);
             stu.setAddress(updateAddress);

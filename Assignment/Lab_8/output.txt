@@ -1,0 +1,1 @@
+ | Student ID: 1 | fullName: Nguyễn Hữu Nghĩa | address: Hà Nội | phoneNumber: 1234567 | DateOfBirth: 1998-12-11 | Enter Date: 2023-02-28 | Age: 24 | Age level: Adult |

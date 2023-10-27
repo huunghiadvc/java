@@ -124,7 +124,7 @@ public class StudentsList {
     public static void getOutputTxt() throws IOException {
         FileWriter writer = new FileWriter("output.txt");
         for(Students stu : studentsList) {
-            writer.write(stu + System.lineSeparator());
+            writer.write(stu + "\n");
         }
         writer.close();
     }

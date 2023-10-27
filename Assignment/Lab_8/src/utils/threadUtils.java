@@ -6,7 +6,7 @@ import entity.StudentsList;
 import java.io.IOException;
 import java.util.Objects;
 
-public class threadUtil {
+public class threadUtils {
     public static void getUserChoose(){
         int userChoose;
         int searchID = -1;
