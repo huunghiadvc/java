@@ -55,7 +55,8 @@ public class Order extends DeliveryOrder {
         StringBuilder result = null;
         if (this.getAddress() == null){
             result = new StringBuilder("\nORDER LIST: \n");
-            result.append(customerName);
+            result.append("Customer: ")
+                    .append(customerName);
         } else {
             result = new StringBuilder("\nDELIVERY LIST: \n");
             result.append("Customer: ")

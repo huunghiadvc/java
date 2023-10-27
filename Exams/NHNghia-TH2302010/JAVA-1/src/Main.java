@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class Main {
     public static void main(String[] args) {
         ArrayList<Product> productsList = new ArrayList<>();
-        Product tomato = new Product(1, "F523", "Tomoto", "Food", 1.5, 589);
+        Product tomato = new Product(1, "F523", "Tomato", "Food", 1.5, 589);
         Product zaraShirt = new Product(2, "A763", "Zara shirt", "Appearance", 12.0, 90);
         Product kitchenTable = new Product(3, "H320", "Kitchen table", "Household", 299.0, 13);
         Product iPhone = new Product(4, "E092", "IPhone", "Electronic", 1000.0, 4);
@@ -61,8 +61,6 @@ public class Main {
         }
 
         System.out.println(order2);
-
-
 
     }
 }

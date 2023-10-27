@@ -13,7 +13,7 @@ public class Students {
     private LocalDate dateOfBirth;
     private LocalDate enterDate;
     private int age;
-    private int ageLevel;
+    private String ageLevel;
 
     public Students() {
     }
@@ -74,11 +74,11 @@ public class Students {
         this.age = age;
     }
 
-    public int getAgeLevel() {
+    public String getAgeLevel() {
         return ageLevel;
     }
 
-    public void setAgeLevel(int ageLevel) {
+    public void setAgeLevel(String ageLevel) {
         this.ageLevel = ageLevel;
     }
 
@@ -106,9 +106,21 @@ public class Students {
         return age;
     }
 
-    public static int checkAgeLevel(LocalDate enterDate){
-        LocalDate dayNow = LocalDate.now();
-        return dayNow.getYear() - enterDate.getYear();
+    public static String checkAgeLevel(int age){
+        if (age == 0 || age == 1){
+            return "Infant";
+        } else if (age >= 2 && age <= 4) {
+            return "Toddler";
+        } else if (age > 4 && age < 13) {
+            return "Child";
+        } else if (age > 12 && age < 20) {
+            return "Teen";
+        } else if (age > 19 && age <= 39 ) {
+            return "Adult";
+        } else if (age > 39 && age <= 59) {
+            return "Middle Age Adult";
+        }
+        return "Senior Adult";
     }
 
     public static void AddStudent(){
@@ -170,6 +182,7 @@ public class Students {
                     continue;
                 }
                 stu.age = calculatorAge(stu.dateOfBirth);
+                stu.ageLevel = checkAgeLevel(stu.age);
                 break;
             }
 
@@ -181,7 +194,6 @@ public class Students {
                     System.err.println("Invalid enter date!!!");
                     continue;
                 }
-                stu.ageLevel = checkAgeLevel(stu.enterDate);
                 break;
             }
 
@@ -197,7 +209,8 @@ public class Students {
         LocalDate updateDateOfBirth;
         LocalDate updateEnterDate;
         int updateAge = 0;
-        int updateAgelevel = 0;
+        String updateAgelevel;
+        LocalDate dayNow = LocalDate.now();
 
         /** Display current student information and enter the information that needs to be edited **/
 
@@ -235,12 +248,12 @@ public class Students {
             System.out.println("Student dateOfBirth: " + stu.dateOfBirth);
             System.out.println("Edit dateOfBirth (yyyy/dd/mm): ");
             updateDateOfBirth = GetInput.getDate();
-            LocalDate dayNow = LocalDate.now();
             if (updateDateOfBirth.getYear() < 1950 || dayNow.getYear() < updateDateOfBirth.getYear()){
                 System.err.println("Invalid birth year!!!");
                 continue;
             }
             updateAge = calculatorAge(updateDateOfBirth);
+            updateAgelevel = checkAgeLevel(updateAge);
             break;
         }
 
@@ -249,7 +262,13 @@ public class Students {
             System.out.println("Student enterDate: " + stu.enterDate);
             System.out.println("Edit enterDate (yyyy/dd/mm): ");
             updateEnterDate = GetInput.getDate();
-            updateAgelevel = checkAgeLevel(updateEnterDate);
+            if (updateEnterDate.getYear() < 2000
+                    || updateEnterDate.getMonthValue() > dayNow.getMonthValue()
+                    || (updateEnterDate.getMonthValue() == dayNow.getMonthValue()
+                        && updateEnterDate.getDayOfMonth() > dayNow.getDayOfMonth())){
+                System.err.println("Invalid enter date!!!");
+                continue;
+            }
             break;
         }
 

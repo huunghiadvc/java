@@ -88,12 +88,14 @@ public class StudentsList {
     public static void deleteStudent(Students stu){
         System.err.println("THE STUDENT HAVE INFORMATION BELOW WILL BE REMOVE: \n");
         System.out.printf(
-                        "Student ID: %d" +
-                        "\nStudent fullName: %s" +
-                        "\nStudent address: %s" +
-                        "\nStudent phone number: %s\n" +
-                        "\nARE YOU SURE?" +
-                        "\nInput Y to confirm, or anything to cancel!",
+                """
+                        Student ID: %s
+                        Student fullName: %s
+                        Student address: %s
+                        Student phone number: %s
+
+                    ARE YOU SURE?
+                    Input Y to confirm, or anything to cancel!""",
                 stu.getID(), stu.getFullName(), stu.getAddress(), stu.getTel()
         );
         String confirm = "";
