@@ -2,13 +2,13 @@ package entity;
 
 import utils.GetInput;
 
-import java.io.PrintStream;
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-public class Students {
-    private String ID;
+public class Students implements Serializable {
+    private static final long serialVersionUID = -6500665823330706018L;
+    private long ID;
     private String fullName;
     private String address;
     private String tel;
@@ -20,11 +20,11 @@ public class Students {
     public Students() {
     }
 
-    public String getID() {
+    public long getID() {
         return ID;
     }
 
-    public void setID(String ID) {
+    public void setID(long ID) {
         this.ID = ID;
     }
 
@@ -131,14 +131,14 @@ public class Students {
             // Input ID
             while (true){
                 System.out.println("Input student ID: ");
-                stu.ID = GetInput.getString();
-                boolean checkList = StudentsList.checkListEmty();
-                if (!stu.getID().matches(".*[0-9].*")){
+                try {
+                    stu.ID = GetInput.getLong();
+                } catch (Exception e) {
                     System.err.println("Invalid ID format!!!");
                     continue;
                 }
-                if(checkList){
-                    if (StudentsList.checkStudentID(Integer.parseInt(stu.ID))) {
+                if(StudentsList.checkListEmpty()){
+                    if (StudentsList.checkStudentID(stu.ID)) {
                         System.err.println("Students ID already exists! \nPlease try again!");
                         continue;
                     }
@@ -158,8 +158,15 @@ public class Students {
             }
 
             // Input address
-            System.out.println("Input student address: ");
-            stu.address = GetInput.getString();
+            while (true){
+                System.out.println("Input student address: ");
+                stu.address = GetInput.getString();
+                if (stu.fullName.isEmpty()) {
+                    System.err.println("Invalid address!");
+                    continue;
+                }
+                break;
+            }
 
             // Input phone number
             while (true){
@@ -204,15 +211,16 @@ public class Students {
         System.err.println("|---- Add Student Successfully ----|");
     }
 
-    public static void editStudentInfor(Students stu){
+    public static boolean editStudentInfo(Students stu){
 
         String updateName;
         String updateAddress;
         String updateTel;
-        LocalDate updateDateOfBirth;
-        LocalDate updateEnterDate;
+        String updateDateOfBirth;
+        String updateEnterDate;
+        LocalDate dateCheck;
         int updateAge = 0;
-        String updateAgelevel;
+        String updateAgeLevel;
         LocalDate dayNow = LocalDate.now();
 
         // Display current student information and enter the information that needs to be edited //
@@ -220,9 +228,16 @@ public class Students {
         while (true){
             System.out.println("---");
             System.out.println("Student fullName: " + stu.fullName);
+            System.out.println("(Input S to unchanged this information or N to return menu!)");
             System.out.println("Edit Name: ");
             updateName = GetInput.getString();
             if (updateName.matches(".*[a-zA-Z].*")) {
+                if (updateName.equalsIgnoreCase("N")){
+                    return false;
+                }
+                if (updateName.equalsIgnoreCase("S")){
+                    updateName = stu.getFullName();
+                }
                 break;
             } else {
                 System.err.println("Invalid format fullName!");
@@ -232,31 +247,53 @@ public class Students {
         System.out.println("---");
         System.out.println("Student address: " + stu.address);
         System.out.println("Edit Address: ");
+        System.out.println("(Input S to unchanged this information or N to return menu!)");
         updateAddress = GetInput.getString();
+        if (updateAddress.equalsIgnoreCase("N")){
+            return false;
+        }
+        if (updateAddress.equalsIgnoreCase("S")){
+            updateAddress = stu.getAddress();
+        }
 
         while (true){
             System.out.println("---");
             System.out.println("Student phone number: " + stu.tel);
+            System.out.println("(Input S to unchanged this information or N to return menu!)");
             System.out.println("Edit Phone number: ");
             updateTel = GetInput.getString();
+            if (updateTel.equalsIgnoreCase("S")){
+                updateTel = stu.getTel();
+            }
             if (updateTel.matches(".*[0-9].*")) {
+                if (updateTel.equalsIgnoreCase("N")){
+                    return false;
+                }
                 break;
             } else {
-                System.err.println("Invalid format fullName!");
+                System.err.println("Invalid format phone number!");
             }
         }
 
         while (true){
             System.out.println("---");
             System.out.println("Student dateOfBirth: " + stu.dateOfBirth);
-            System.out.println("Edit dateOfBirth (yyyy/dd/mm): ");
-            updateDateOfBirth = GetInput.getDate();
-            if (updateDateOfBirth.getYear() < 1950 || dayNow.getYear() < updateDateOfBirth.getYear()){
-                System.err.println("Invalid birth year!!!");
+            System.out.println("Edit dateOfBirth (yyyy-dd-mm): ");
+            System.out.println("(Input S to unchanged this information or N to return menu!)");
+            updateDateOfBirth = GetInput.getString();
+            if (updateDateOfBirth.equalsIgnoreCase("N")){
+                return false;
+            }
+            if (updateDateOfBirth.equalsIgnoreCase("S")){
+                updateDateOfBirth = String.valueOf(stu.getDateOfBirth());
+            }
+            dateCheck = LocalDate.parse(updateDateOfBirth);
+            if (dateCheck.getYear() < 1950 || dayNow.getYear() < dateCheck.getYear()){
+                System.err.println("Invalid date of birth!!!");
                 continue;
             }
-            updateAge = calculatorAge(updateDateOfBirth);
-            updateAgelevel = checkAgeLevel(updateAge);
+            updateAge = calculatorAge(dateCheck);
+            updateAgeLevel = checkAgeLevel(updateAge);
             break;
         }
 
@@ -264,17 +301,24 @@ public class Students {
             System.out.println("---");
             System.out.println("Student enterDate: " + stu.enterDate);
             System.out.println("Edit enterDate (yyyy/dd/mm): ");
-            updateEnterDate = GetInput.getDate();
-            if (updateEnterDate.getYear() < 2000
-                    || updateEnterDate.getMonthValue() > dayNow.getMonthValue()
-                    || (updateEnterDate.getMonthValue() == dayNow.getMonthValue()
-                        && updateEnterDate.getDayOfMonth() > dayNow.getDayOfMonth())){
+            System.out.println("(Input S to unchanged this information or N to return menu!)");
+            updateEnterDate = GetInput.getString();
+            if (updateEnterDate.equalsIgnoreCase("N")){
+                return false;
+            }
+            if (updateEnterDate.equalsIgnoreCase("S")){
+                updateEnterDate = String.valueOf(stu.getEnterDate());
+            }
+            dateCheck = LocalDate.parse(updateEnterDate);
+            if (dateCheck.getYear() < 2000
+                    || dateCheck.getMonthValue() > dayNow.getMonthValue()
+                    || (dateCheck.getMonthValue() == dayNow.getMonthValue()
+                        && dateCheck.getDayOfMonth() > dayNow.getDayOfMonth())){
                 System.err.println("Invalid enter date!!!");
                 continue;
             }
             break;
         }
-
 
 
         // Confirm student data change //
@@ -303,8 +347,10 @@ public class Students {
                 stu.getFullName(), stu.getAddress(), stu.getTel(),
                 stu.getDateOfBirth(), stu.getEnterDate(), stu.getAge(), stu.getAgeLevel(),
                 updateName, updateAddress, updateTel, updateDateOfBirth,
-                updateEnterDate, updateAge, updateAgelevel
+                updateEnterDate, updateAge, updateAgeLevel
         );
+
+        System.out.println("\nInput Y to confirm change, or N to cancel!");
 
         String confirm;
         while (true){
@@ -321,14 +367,15 @@ public class Students {
             stu.setFullName(updateName);
             stu.setAddress(updateAddress);
             stu.setTel(updateTel);
-            stu.setDateOfBirth(updateDateOfBirth);
-            stu.setEnterDate(updateEnterDate);
+            stu.setDateOfBirth(LocalDate.parse(updateDateOfBirth));
+            stu.setEnterDate(LocalDate.parse(updateEnterDate));
             stu.setAge(updateAge);
-            stu.setAgeLevel(updateAgelevel);
-            System.err.println("\nDATA CHANGE SUCCESSFULLY!\n");
+            stu.setAgeLevel(updateAgeLevel);
         } else {
-            System.err.println("\nDATA CHANGE CANCEL!!!\n");
+            return false;
         }
+
+        return true;
 
     }
 

@@ -15,6 +15,14 @@ public class GetInput {
         return value;
     }
 
+    public static long getLong(){
+        long value = 0;
+
+        value = Integer.parseInt(input.nextLine());
+
+        return value;
+    }
+
     public static String getString(){
         String value = "";
 

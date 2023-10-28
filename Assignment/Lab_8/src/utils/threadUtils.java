@@ -9,7 +9,7 @@ import java.util.Objects;
 public class threadUtils {
     public static void getUserChoose(){
         int userChoose;
-        int searchID = -1;
+        String searchID = "";
         Students stuSearch;
         while (true){
             try {
@@ -34,42 +34,64 @@ public class threadUtils {
                 break;
 
             case 3:
-                System.out.println("Input student ID need to edit: ");
-                while (true){
-                    try {
-                        searchID = GetInput.getInt();
-                    } catch (Exception e){
-                        System.err.println("Plese input integer!");
-                        GetInput.getInt();
+                if (StudentsList.checkListEmpty()){
+                    while (true){
+                        System.out.println("Input student ID need to edit: ");
+                        System.err.println("(Input N to return menu)");
+                        try {
+                            searchID = GetInput.getString();
+                            break;
+                        } catch (Exception e){
+                            GetInput.getString();
+                        }
                     }
-                    stuSearch = StudentsList.searchStudent(searchID);
-                    if (stuSearch != null){
-                        Students.editStudentInfor(stuSearch);
-                    } else {
-                        System.err.println("Student ID does not exist!");
-                        continue;
+                    if (searchID.equalsIgnoreCase("N")) break;
+
+                    if (searchID.matches(".*[0-9].*")) {
+                        stuSearch = StudentsList.searchStudent(Long.parseLong(searchID));
+                        if (stuSearch != null){
+                            if (Students.editStudentInfo(stuSearch)) {
+                                System.err.println("\nDATA CHANGE SUCCESSFULLY!\n");
+                            } else {
+                                System.err.println("\nDATA CHANGE CANCEL!!!\n");
+                            }
+                        } else {
+                            System.err.println("Student ID does not exist!");
+                        }
                     }
-                    break;
+                } else {
+                    System.err.println("STUDENT LIST IS EMPTY!");
                 }
                 break;
 
             case 4:
-                System.out.println("Input student ID need to delete: ");
-                while (true){
-                    try {
-                        searchID = GetInput.getInt();
-                    } catch (Exception e){
-                        System.err.println("Plese input integer!");
-                        GetInput.getInt();
+                if (StudentsList.checkListEmpty()){
+                    while (true){
+                        System.out.println("Input student ID need to delete: ");
+                        System.err.println("(Input N to return menu)");
+                        try {
+                            searchID = GetInput.getString();
+                            break;
+                        } catch (Exception e){
+                            System.err.println("Please input integer!");
+                            GetInput.getString();
+                        }
                     }
-                    stuSearch = StudentsList.searchStudent(searchID);
-                    if (stuSearch != null) {
-                        StudentsList.deleteStudent(stuSearch);
-                    } else {
-                        System.err.println("Student ID does not exist!");
-                        continue;
+
+                    if (searchID.equalsIgnoreCase("N")) break;
+
+                    if (searchID.matches(".*[0-9].*")) {
+                        stuSearch = StudentsList.searchStudent(Long.parseLong(searchID));
+                        if (stuSearch != null) {
+                            StudentsList.deleteStudent(stuSearch);
+                            break;
+                        } else {
+                            System.err.println("Student ID does not exist!");
+                        }
                     }
-                    break;
+
+                } else {
+                    System.err.println("STUDENT LIST IS EMPTY!");
                 }
                 break;
 
@@ -77,15 +99,14 @@ public class threadUtils {
                 System.out.println("Input Y to exit the program, input anything to cancel.");
                 String userConfirm = GetInput.getString();
                 if (Objects.equals(userConfirm.toUpperCase(), "Y")) {
-                    if (StudentsList.checkListEmty()){
+                    if (StudentsList.checkListEmpty()){
                         try {
                             StudentsList.getOutputTxt();
-                            System.err.println("Student List output to txt file successfully!!!");
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
                     } else {
-                        System.err.println("Student list is emty!!!");
+                        System.err.println("Student list is empty!!!");
                     }
                     System.exit(0);
                 } else {
