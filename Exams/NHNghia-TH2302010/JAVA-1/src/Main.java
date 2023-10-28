@@ -40,7 +40,7 @@ public class Main {
 
         System.out.println(order1);
 
-        Order order2 = new Order();
+        DeliveryOrder order2 = new DeliveryOrder();
         order2.setCustomerName("Chris Evans");
         order2.setAddress("123 Cau Giay");
         LocalDateTime timeDelivery = LocalDateTime.of(2023, Month.AUGUST, 9, 13, 14, 0);

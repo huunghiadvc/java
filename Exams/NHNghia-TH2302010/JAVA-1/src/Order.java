@@ -3,7 +3,7 @@ import entity.Product;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Order extends DeliveryOrder {
+public class Order {
     private String customerName;
     private LocalDateTime transactionTime;
     ArrayList<LineItem> lineItem = new ArrayList<>();
@@ -35,8 +35,11 @@ public class Order extends DeliveryOrder {
         this.transactionTime = transactionTime;
     }
 
-    public static double cost(){
-        double result = 0.1;
+    public double cost(){
+        double result = 0;
+        for (LineItem item : lineItem) {
+            result += LineItem.cost(item.getProduct().getPrice(), item.getQuantity());
+        }
         return result;
     }
     public boolean addProduct(Product product, int quantity){
@@ -53,19 +56,10 @@ public class Order extends DeliveryOrder {
     @Override
     public String toString(){
         StringBuilder result = null;
-        if (this.getAddress() == null){
-            result = new StringBuilder("\nORDER LIST: \n");
-            result.append("Customer: ")
-                    .append(customerName);
-        } else {
-            result = new StringBuilder("\nDELIVERY LIST: \n");
-            result.append("Customer: ")
-                    .append(customerName);
-        }
-        double total = 0;
+        result = new StringBuilder("\nORDER LIST: \n");
+        result.append("Customer: ").append(customerName);
         for (LineItem item: lineItem) {
             assert false;
-            total += LineItem.cost(item.getProduct().getPrice(), item.getQuantity());
             result.append("\n\n\t| Product name: ").append(item.getProduct().getName())
                     .append("\n\t| Transaction time: ").append(transactionTime)
                     .append("\n\t| Category: ").append(item.getProduct().getCategory())
@@ -74,7 +68,7 @@ public class Order extends DeliveryOrder {
                     .append("\n\t| Cost: ")
                     .append(LineItem.cost(item.getProduct().getPrice(), item.getQuantity()));
         }
-        result.append("\n\n| Total: ").append(total).append("\n");
+        result.append("\n\n| Total: ").append(cost()).append("\n");
         return result.toString();
     }
 
