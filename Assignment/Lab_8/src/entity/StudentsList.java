@@ -6,8 +6,6 @@ import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
 
-import static jdk.internal.org.jline.utils.Colors.s;
-
 public class StudentsList {
     private static List<Students> studentsList = getBatchStudent();
 
@@ -186,16 +184,6 @@ public class StudentsList {
                     "\nEnter Date: " + stu.getEnterDate() +
                     "\n------------------********------------------\n"
             );
-        }
-
-        try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(idea));
-            for (Students stu : studentsList) {
-                oos.writeObject(stu);
-            }
-            System.out.println("Success...");
-        } catch (IOException e) {
-            System.err.println("Failure...");
         }
 
         writer.close();
