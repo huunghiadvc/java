@@ -95,10 +95,14 @@ public class FileUtils {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        try {
+            writer.write(header);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         for(Customer customer : Bank.getBankAccount()) {
             try {
                 writer.write(
-                        header +
                         customer.getId() + "|" + customer.getName() + "|" +
                                 customer.getCardType() + "|" + customer.getCardId() + "|" +
                                 customer.getDateOfBirth() + "|" + customer.getCitizenIDCard() + "|" +

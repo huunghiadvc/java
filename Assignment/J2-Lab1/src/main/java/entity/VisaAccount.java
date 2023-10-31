@@ -16,7 +16,9 @@ public class VisaAccount extends Bank {
     }
 
     public static boolean checkCustomer(String citizenIdCard){
+        System.out.println(citizenIdCard+"!");
         for (Customer cusCheck : VisaAccount.getVisaAccount()){
+            System.out.println(cusCheck.getCitizenIDCard());
             if (cusCheck.getCitizenIDCard().equalsIgnoreCase(citizenIdCard)){
                 return false;
             }

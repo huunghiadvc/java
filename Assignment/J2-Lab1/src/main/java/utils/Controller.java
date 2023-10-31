@@ -43,27 +43,28 @@ public class Controller {
                 break;
 
             case 3:
-                if (Bank.getBankAccount() == null){
-                    Bank.initBankAccountList();
-                    System.err.println("BANK ACCOUNT IS EMPTY!!!");
-                    break;
-                }
-                if (!Bank.getBankAccount().isEmpty()){
-                    System.out.println("Input customer ID to edit: ");
-                    userChoose = GetInput.getString();
-                    if (userChoose.matches(".*[0-9].*")) {
-
-                        customerIdInput = Long.parseLong(userChoose);
-                        customerSearch = Bank.searchCustomer(customerIdInput);
-
-                        System.out.println("Input Y to confirm data change!");
-                        userConfirm = GetInput.getString();
-
-                        if (userConfirm.equalsIgnoreCase("Y")){
-                            Bank.getBankAccount().remove(customerSearch);
-                        }
-                    }
-                }
+                System.out.println("Please wait for update!");
+//                if (Bank.getBankAccount() == null){
+//                    Bank.initBankAccountList();
+//                    System.err.println("BANK ACCOUNT IS EMPTY!!!");
+//                    break;
+//                }
+//                if (!Bank.getBankAccount().isEmpty()){
+//                    System.out.println("Input customer ID to edit: ");
+//                    userChoose = GetInput.getString();
+//                    if (userChoose.matches(".*[0-9].*")) {
+//
+//                        customerIdInput = Long.parseLong(userChoose);
+//                        customerSearch = Bank.searchCustomer(customerIdInput);
+//
+//                        System.out.println("Input Y to confirm data change!");
+//                        userConfirm = GetInput.getString();
+//
+//                        if (userConfirm.equalsIgnoreCase("Y")){
+//                            Bank.getBankAccount().remove(customerSearch);
+//                        }
+//                    }
+//                }
                 break;
 
             case 4:

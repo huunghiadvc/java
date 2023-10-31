@@ -2,7 +2,6 @@ package entity;
 
 import lombok.Getter;
 import lombok.ToString;
-import utils.ValidateCustomerInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,14 +11,6 @@ public class Bank {
     @Getter
     private static List<Customer> bankAccount;
 
-//    @Getter
-//    private static final String[] cardType = {
-//            "VISA",
-//            "JCB",
-//            "HYBRID"
-//    };
-
-    @Getter
     public enum cardType {
         VISA, JCB, HYBRID
     }
@@ -43,30 +34,6 @@ public class Bank {
             }
         }
         return null;
-    }
-
-    public static boolean checkCustomerAccount(Customer c){
-
-        for (Customer cusCheck : VisaAccount.getVisaAccount()){
-            if (cusCheck.getCitizenIDCard().equalsIgnoreCase(c.getCitizenIDCard())){
-                return false;
-            }
-        }
-
-        for (Customer cusCheck : JCBAccount.getJcbAccount()){
-            if (cusCheck.getCitizenIDCard().equalsIgnoreCase(c.getCitizenIDCard())){
-                return false;
-            }
-        }
-
-        for (Customer cusCheck : HybridAccount.getHybridAccount()){
-            if (cusCheck.getCitizenIDCard().equalsIgnoreCase(c.getCitizenIDCard())){
-                return false;
-            }
-        }
-
-        return true;
-
     }
 
 }
