@@ -2,15 +2,12 @@ package file;
 
 import lombok.Student;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class FileLab {
     public static void main(String[] args) {
-        lab2();
+        createFileDemo();
     }
     public static void lab1(){
         File file = new File("./src/etc/demo.txt"); // relative path
@@ -64,4 +61,25 @@ public class FileLab {
             System.out.println(stu);
         }
     }
+    static void createFileDemo(){
+        File f = new File("./src/etc/customer.txt");
+        try {
+            f.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        PrintWriter out;
+        try {
+            out = new PrintWriter(new BufferedWriter(
+                    new FileWriter("./src/etc/customer.txt")
+            ));
+            out.println("Demo");
+            out.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 }

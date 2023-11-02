@@ -13,13 +13,14 @@ import java.time.format.DateTimeFormatter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Student {
     private long id;
     private String studentId;
     private String name;
     private LocalDate dateOfBirth;
     private String address;
-    private String tel;
+    private int tel;
     public static Student convert(String line, String header){
         if (StringUtils.isEmpty(line)) return null;
         if (line.trim().equalsIgnoreCase(header)) return null;
