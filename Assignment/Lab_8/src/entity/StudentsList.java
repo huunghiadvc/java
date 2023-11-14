@@ -172,19 +172,19 @@ public class StudentsList {
             }
         }
         writer.write("STUDENT LIST:\n\n");
-        for(Students stu : studentsList) {
-            writer.write(
-                    "ID: " + stu.getID() +
-                    "\nName: " + stu.getFullName() +
-                    "\nAddress: " + stu.getAddress() +
-                    "\nPhone Number: " + stu.getTel() +
-                    "\nDate of Birth: " + stu.getDateOfBirth() +
-                    "\nAge: " + stu.getAge() +
-                    "\nAge Level: " + stu.getAgeLevel() +
-                    "\nEnter Date: " + stu.getEnterDate() +
-                    "\n------------------********------------------\n"
-            );
-        }
+            for(Students stu : studentsList) {
+                writer.write(
+                        "ID: " + stu.getID() +
+                        "\nName: " + stu.getFullName() +
+                        "\nAddress: " + stu.getAddress() +
+                        "\nPhone Number: " + stu.getTel() +
+                        "\nDate of Birth: " + stu.getDateOfBirth() +
+                        "\nAge: " + stu.getAge() +
+                        "\nAge Level: " + stu.getAgeLevel() +
+                        "\nEnter Date: " + stu.getEnterDate() +
+                        "\n------------------********------------------\n"
+                );
+            }
 
         writer.close();
     }

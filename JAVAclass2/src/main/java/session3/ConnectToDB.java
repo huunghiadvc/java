@@ -1,17 +1,13 @@
 package session3;
 
+import org.apache.commons.lang3.StringUtils;
 import utils.GetInput;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class ConnectToDB {
-
-    private static final String url = "jdbc:mysql://103.110.85.97:3306/T2303E_SEM2";
-    private static final String username = "root";
-    private static final String password = "admintascSecretPassword!123";
 
     public static void main(String[] args) {
         while (true){
@@ -28,20 +24,6 @@ public class ConnectToDB {
     public static String passwordLogin(){
         System.out.println("Input password: ");
         return GetInput.getString();
-    }
-
-    public static Connection connectDb(){
-        Connection connection = null;
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(url, username, password);
-            System.err.println(
-                    connection != null ? "Connect OK!" : "Connect NOT OK!"
-            );
-        } catch (ClassNotFoundException | SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return connection;
     }
 
 //    public static List<User> getUserList(){
@@ -86,7 +68,7 @@ public class ConnectToDB {
 
     public static boolean validateUser(String username , String password){
         List<User> userList = new ArrayList<>();
-        Connection connect = connectDb();
+        Connection connect = DataSource.getConnection();
         boolean result = true;
         // statement
         try {
@@ -110,18 +92,19 @@ public class ConnectToDB {
     }
 
     public static boolean validateUser1(String username , String password){
+        boolean result = false;
+        if(StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) return result;
+
         List<User> userList = new ArrayList<>();
-        Connection connect = connectDb();
+        Connection connect = DataSource.getConnection();
         String sql = "SELECT * FROM `user_table` WHERE `username` = ? AND password = ?";
-        boolean result = true;
         // statement
         try {
             PreparedStatement preStmt = connect.prepareStatement(sql);
             preStmt.setString(1, username);
             preStmt.setString(2, password);
-            ResultSet rs = preStmt.executeQuery();
+            ResultSet rs = preStmt.executeQuery(sql);
             while (rs.next()){
-                User u = rowMapper(rs);
                 userList.add(rowMapper(rs));
             }
             if (!userList.isEmpty()){
@@ -131,6 +114,17 @@ public class ConnectToDB {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            if (connect != null){
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        if(!userList.isEmpty()){
+            result = true;
         }
         return result;
     }

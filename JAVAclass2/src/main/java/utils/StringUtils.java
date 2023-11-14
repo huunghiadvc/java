@@ -10,7 +10,6 @@ public class StringUtils {
             int num = NumberUtils.randomNumber(0, alpha.length() - 1);
             char ch = alpha.charAt(num);
             sb.append(ch);
-
         }
         return sb.toString();
     }
