@@ -1,12 +1,12 @@
 package StudentsLab.dao.impl;
 
-import StudentsLab.dao.StudentDao;
+import StudentsLab.dao.CustomerDao;
 import StudentsLab.entity.Student;
 import StudentsLab.config.DataBaseConnect;
 
 import java.sql.*;
 
-public class StudentDaoImpl implements StudentDao {
+public class StudentDaoImpl implements CustomerDao {
 
     private Connection getConnect(){
         DataBaseConnect dataBaseConnect = new DataBaseConnect();

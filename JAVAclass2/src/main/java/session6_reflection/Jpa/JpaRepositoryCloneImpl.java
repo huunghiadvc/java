@@ -43,12 +43,14 @@ public abstract class JpaRepositoryCloneImpl<T> implements JpaRepositoryClone<T>
 
     @Override
     public T getById(int id) {
+
         StringBuilder sql = new StringBuilder(StringSql.SELECT_CLAUSE.val)
                 .append(StringSql.SPACE.val).append(tableName)
                 .append(StringSql.SPACE.val).append(StringSql.WHERE.val )
                 .append(StringSql.SPACE.val).append(idColumnName)
                 .append(StringSql.SPACE.val).append(StringSql.EQUAL.val)
                 .append(StringSql.SPACE.val).append(StringSql.QUESTION_MARK.val);
+
         Connection connection = DataBaseConnect.getConnection();
         PreparedStatement preStmt;
         try {

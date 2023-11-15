@@ -1,6 +1,7 @@
 package MultiThread;
 
-import MultiThread.Thread.ThreadClone;
+import java.sql.Timestamp;
+import java.util.Date;
 
 public class Main {
     public static void main(String[] args) {
@@ -13,13 +14,15 @@ public class Main {
 
 //        Thread[] threadGroup = new Thread[];
 
-        for (int i = 0; i < 10; i++){
-            ThreadClone t = new ThreadClone(String.valueOf(i) , 10);
-            Thread tRun = new Thread(t);
-            tRun.start();
-        }
+//        for (int i = 0; i < 10; i++){
+//            ThreadClone t = new ThreadClone(String.valueOf(i) , 10);
+//            Thread tRun = new Thread(t);
+//            tRun.start();
+//        }
 
-
+        Date utilDate = new Date();
+        Timestamp ts = new Timestamp(utilDate.getTime());
+        System.out.println(ts);
 
     }
 }

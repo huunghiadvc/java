@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import utils.GetInput;
 import utils.ValidateCustomerInfo;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 
@@ -13,37 +14,38 @@ import java.time.LocalDate;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Customer {
+public class BankAccount {
 
     private long id;
     private String name;
     private String cardType;
     private String cardId;
+    private Long balance;
     private LocalDate dateOfBirth;
     private String citizenIDCard;
     private String tel;
     private String address;
 
-    public static Customer importCustomer(String line, String header){
+    public static BankAccount importAccount(String line){
 
         if (StringUtils.isEmpty(line)) return null;
 
-        if (line.trim().equalsIgnoreCase(header)) return null;
         String[] chars = line.split("\\|");
 
-        return Customer.builder()
+        return BankAccount.builder()
                 .id(Long.parseLong(chars[0]))
                 .name(String.valueOf(chars[1]))
                 .cardType(String.valueOf(chars[2]))
                 .cardId(String.valueOf(chars[3]))
-                .dateOfBirth(LocalDate.parse(chars[4]))
-                .citizenIDCard(String.valueOf(chars[5]))
-                .tel(String.valueOf(chars[6]))
-                .address(String.valueOf(chars[7]))
+                .balance(Long.parseLong(chars[4]))
+                .dateOfBirth(LocalDate.parse(chars[5]))
+                .citizenIDCard(String.valueOf(chars[6]))
+                .tel(String.valueOf(chars[7]))
+                .address(String.valueOf(chars[8]))
                 .build();
     }
 
-    public static void addCustomerConsole(){
+    public static void addCustomer(){
         long customer_id;
         String customer_name;
         String customer_cardType;
@@ -86,9 +88,9 @@ public class Customer {
         while (true){
             System.out.println("Input customer card type: ");
             customer_cardType = GetInput.getString();
-            if (!ValidateCustomerInfo.cardTypeValid(customer_cardType)) {
-                continue;
-            }
+//            if (!ValidateCustomerInfo.cardTypeValid(customer_cardType)) {
+//                continue;
+//            }
             break;
         }
 
@@ -144,7 +146,7 @@ public class Customer {
             break;
         }
 
-        Customer c = Customer.builder()
+        BankAccount c = BankAccount.builder()
                         .id(customer_id)
                         .name(customer_name)
                         .cardType(customer_cardType)

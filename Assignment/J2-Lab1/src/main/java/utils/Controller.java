@@ -1,45 +1,34 @@
 package utils;
 
+import dao.CustomerDao;
+import dao.TransactionDao;
+import dao.impl.CustomerDaoImpl;
+import dao.impl.TransactionDaoimpl;
 import entity.*;
 
+import java.sql.SQLException;
+import java.util.List;
+
 public class Controller {
-    public static void userSelectionThreading(){
+    public static void userSelectionThreading() throws SQLException {
 
         String userConfirm = "";
-        long customerIdInput;
-        Customer customerSearch;
+        long bankAccountId;
+        BankAccount bankAccountSearch;
 
         String userChoose = GetInput.getString();
 
         switch (Integer.parseInt(userChoose)){
             case 1:
-                Customer.addCustomerConsole();
+                BankAccount.addCustomer();
                 break;
 
             case 2:
-                MenuUtils.showAccountMenu();
-                userChoose = GetInput.getString();
-                switch (Integer.parseInt(userChoose)){
-                    case 1:
-                        try {
-                            Bank.show(Bank.getBankAccount());
-                        } catch (Exception e) {
-                            System.err.println("Account list empty!!!");
-                        }
-                        break;
-                    case 2:
-                        VisaAccount.show(VisaAccount.getVisaAccount());
-                        break;
-                    case 3:
-                        JCBAccount.show(JCBAccount.getJcbAccount());
-                        break;
-                    case 4:
-                        HybridAccount.show(HybridAccount.getHybridAccount());
-                        break;
-
-                    default:
-                        System.out.println("Error!");
+                if (Bank.checkBankData()){
+                    Bank.show(Bank.getBankAccount());
+                    break;
                 }
+                System.out.println("Bank account is empty!\nPlease import first!");
                 break;
 
             case 3:
@@ -54,43 +43,41 @@ public class Controller {
 //                    userChoose = GetInput.getString();
 //                    if (userChoose.matches(".*[0-9].*")) {
 //
-//                        customerIdInput = Long.parseLong(userChoose);
-//                        customerSearch = Bank.searchCustomer(customerIdInput);
+//                        bankAccountId = Long.parseLong(userChoose);
+//                        bankAccountSearch = Bank.searchAccount(bankAccountId);
 //
 //                        System.out.println("Input Y to confirm data change!");
 //                        userConfirm = GetInput.getString();
 //
 //                        if (userConfirm.equalsIgnoreCase("Y")){
-//                            Bank.getBankAccount().remove(customerSearch);
+//                            Bank.getBankAccount().remove(bankAccountSearch);
 //                        }
 //                    }
 //                }
                 break;
 
             case 4:
-                if (!Bank.getBankAccount().isEmpty()){
+                if (Bank.checkBankData()){
                     System.out.println("Input customer ID to delete: ");
                     userChoose = GetInput.getString();
                     if (userChoose.matches(".*[0-9].*")) {
 
-                        customerIdInput = Long.parseLong(userChoose);
-                        customerSearch = Bank.searchCustomer(customerIdInput);
+                        bankAccountId = Long.parseLong(userChoose);
+                        bankAccountSearch = Bank.searchAccount(bankAccountId);
 
                         System.err.println("Please input Y to confirm remove customer below:");
-                        System.out.println(customerSearch + "\n");
+                        System.out.println(bankAccountSearch + "\n");
                         userConfirm = GetInput.getString();
 
                         if (userConfirm.equalsIgnoreCase("Y")){
-                            Bank.getBankAccount().remove(customerSearch);
+                            Bank.getBankAccount().remove(bankAccountSearch);
                         }
                     }
-                } else {
-                    System.err.println("BANK ACCOUNT IS EMPTY!!!");
                 }
                 break;
 
             case 5:
-                if (Bank.getBankAccount().isEmpty()){
+                if (!Bank.checkBankData()){
                     System.err.println("BANK ACCOUNT IS EMPTY!!!");
                     break;
                 }
@@ -115,6 +102,40 @@ public class Controller {
                 break;
 
             case 7:
+                if (Bank.getBankAccount().isEmpty()){
+                    System.out.println("Bank account is empty!\nPlease import first!");
+                    break;
+                }
+                CustomerDao cusDao = new CustomerDaoImpl();
+                for (BankAccount cus : Bank.getBankAccount()) {
+                    cusDao.insert(cus);
+                }
+                break;
+
+            case 8:
+                TransactionDao transDao = new TransactionDaoimpl();
+                if (FileUtils.transactionFileCheck()){
+                    List<Transaction> transactionLog = FileUtils.transactionReader();
+                    int count = 0;
+                    assert transactionLog != null;
+                    for (Transaction tran : transactionLog) {
+                        if (transDao.insert(tran)){
+                            count++;
+                        }
+                    }
+                    if (count == transactionLog.size()){
+                        System.out.printf("Insert %d transaction log to database successfully!", count);
+                    } else {
+                        System.out.printf("Insert %d transaction log to database successfully!", count);
+                        System.err.printf("Insert %d transaction log to database failure!", count);
+                    }
+                    transDao.updateTransaction(transactionLog);
+                } else {
+                    System.err.println("Import data failure! File not found!");
+                }
+                break;
+
+            case 9:
                 System.out.println("Input Y to exist program or N to cancel!");
                 userChoose = GetInput.getString();
                 if (userChoose.equalsIgnoreCase("Y")){

@@ -3,13 +3,14 @@ package utils;
 import entity.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class ValidateCustomerInfo {
 
     public static boolean idValid(long id){
         if (!Bank.getBankAccount().isEmpty()){
-            for (Customer customer : Bank.getBankAccount()) {
-                if (customer.getId() == id) {
+            for (BankAccount bankAccount : Bank.getBankAccount()) {
+                if (bankAccount.getId() == id) {
                     System.err.println("Students ID already exists! \nPlease try again!");
                     return false;
                 }
@@ -26,15 +27,16 @@ public class ValidateCustomerInfo {
         return true;
     }
 
-    public static boolean cardTypeValid(String cardType){
-        for (Bank.cardType cardTypeBank : Bank.cardType.values()) {
-            if (cardType.equalsIgnoreCase(String.valueOf(cardTypeBank))){
-                return true;
-            }
-        }
-        System.err.println("Invalid customer card type!");
-        return false;
-    }
+//    public static boolean cardTypeValid(String cardType){
+//        switch (cardType){
+//            case CardType.VISA.val:
+//
+//                break;
+//            default:
+//                System.err.println("Invalid customer card type!");
+//        }
+//        return false;
+//    }
 
 
 
@@ -87,49 +89,56 @@ public class ValidateCustomerInfo {
         return true;
     }
 
-    public static boolean importCustomerValid(Customer customer){
+
+
+    public static boolean importCustomerValid(BankAccount bankAccount){
 
         int count = 0;
 
-        if (!customer.getName().matches(".*[a-zA-Z].*")){
-            System.err.println("Invalid customer name! ID customer: " + customer.getId());
+        if (!bankAccount.getName().matches(".*[a-zA-Z].*")){
+            System.err.println("Invalid customer name! ID customer: " + bankAccount.getId());
             count++;
         }
 
-        if (!customer.getCardId().matches(".*[0-9].*") && customer.getCardId().length() != 14){
-            System.err.println("Invalid customer card ID of customer ID: " + customer.getId());
+        if (!bankAccount.getCardId().matches(".*[0-9].*") && bankAccount.getCardId().length() != 14){
+            System.err.println("Invalid customer card ID of customer ID: " + bankAccount.getId());
             count++;
         }
 
-        if (!customer.getDateOfBirth().isBefore(LocalDate.now())){
-            System.err.println("Invalid date of birth customer ! ID customer: " + customer.getId());
+        if (!bankAccount.getDateOfBirth().isBefore(LocalDate.now())){
+            System.err.println("Invalid date of birth customer ! ID customer: " + bankAccount.getId());
             count++;
         }
 
-        if (!customer.getCitizenIDCard().matches(".*[0-9].*")) {
-            System.err.println("Invalid customer citizen ID cards! ID " + customer.getId());
+        if (!bankAccount.getCitizenIDCard().matches(".*[0-9].*")) {
+            System.err.println("Invalid customer citizen ID cards! ID " + bankAccount.getId());
             count++;
         }
-        if (customer.getCitizenIDCard().length() != 9){
-            if (customer.getCitizenIDCard().length() != 16) {
-                System.err.println("Invalid customer citizen ID cards length! ID " + customer.getId());
-                count++;
-            }
+        if (bankAccount.getCitizenIDCard().length() != 9 && bankAccount.getCitizenIDCard().length() != 16){
+            System.err.println("Invalid customer citizen ID cards length! ID " + bankAccount.getId());
+            count++;
         }
 
-        if (!customer.getTel().matches(".*[0-9].*") && customer.getTel().length() != 10){
-            System.err.println("Invalid customer phone number! ID customer: " + customer.getId());
+        if (!bankAccount.getTel().matches(".*[0-9].*") && bankAccount.getTel().length() != 10){
+            System.err.println("Invalid customer phone number! ID customer: " + bankAccount.getId());
             count++;
         }
 
         if (count != 0){
             System.err.printf("Adding customer ID = %s information failed. Have %d information errors!\n",
-                    customer.getId(), count);
+                    bankAccount.getId(), count);
             return false;
         }
 
         return true;
 
+    }
+
+    public static boolean validateTransaction(List<String> transaction){
+//        for (String str : transaction) {
+//            System.out.println(str);
+//        }
+        return true;
     }
 
 }
