@@ -1,5 +1,6 @@
 package utils;
 
+import consts.TransferType;
 import dao.CustomerDao;
 import dao.TransactionDao;
 import dao.impl.CustomerDaoImpl;

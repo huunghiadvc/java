@@ -10,7 +10,7 @@ public class MenuUtils {
         System.out.println("    4. Delete customer information by ID.");
         System.out.println("    5. Export to file.");
         System.out.println("    6. Import bank account from file.");
-        System.out.println("    7. Insert account and transaction data to database.");
+        System.out.println("    7. Insert account data to database.");
         System.out.println("    8. Update transaction.");
         System.out.println("    9. Exit.");
         System.out.println(" ");

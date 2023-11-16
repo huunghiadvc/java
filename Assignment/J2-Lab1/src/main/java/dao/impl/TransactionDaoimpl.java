@@ -5,10 +5,7 @@ import consts.StringSql;
 import consts.TransferType;
 import dao.TransactionDao;
 import entity.Bank;
-import entity.BankAccount;
 import entity.Transaction;
-
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -30,7 +27,6 @@ public class TransactionDaoimpl implements TransactionDao {
         try {
             preStmt = connect.prepareStatement(sql);
             Timestamp date = new Timestamp(transaction.getTransactionTime().getTime());
-            System.err.println(date);
             preStmt.setString(1, transaction.getCardType());
             preStmt.setString(2, transaction.getCardId());
             preStmt.setString(3, transaction.getTransactionType());
@@ -48,15 +44,39 @@ public class TransactionDaoimpl implements TransactionDao {
         Bank.getBankAccount().forEach(cus -> {
             for (Transaction tran : transaction) {
                 if (tran.getCardId().equals(cus.getCardId())){
-                    if (tran.getTransactionType().equalsIgnoreCase(TransferType.SEND.val)){
-                        cus.setBalance(cus.getBalance() - tran.getTransactionAmount());
-                    }
+                    long balance = 0;
+                    if ( tran.getTransactionType().equalsIgnoreCase(TransferType.SEND.val)
+                            &&
+                         tran.getTransactionAmount() <= cus.getBalance()){
+                        balance = cus.getBalance() - tran.getTransactionAmount();
+                        cus.setBalance(balance);
+                    } else
                     if (tran.getTransactionType().equalsIgnoreCase(TransferType.RECEIVE.val)){
-                        cus.setBalance(cus.getBalance() + tran.getTransactionAmount());
+                        balance = cus.getBalance() + tran.getTransactionAmount();
+                        cus.setBalance(balance);
+                    } else {
+                        System.out.println("Transfer type error!");
+                        continue;
                     }
+                    updateDatabase(tran.getCardId(), balance);
                 }
             }
         });
+    }
+
+    public void updateDatabase(String cardId, long balance){
+        String sql = "Update bank_account SET balance = ? WHERE card_id = ?";
+        System.out.println(sql);
+        Connection connect = DataBaseConnect.getConnection();
+        PreparedStatement preStmt;
+        try {
+            preStmt = connect.prepareStatement(sql);
+            preStmt.setString(1, cardId);
+            preStmt.setLong(2, balance);
+            preStmt.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static Transaction getTransaction(String line){
