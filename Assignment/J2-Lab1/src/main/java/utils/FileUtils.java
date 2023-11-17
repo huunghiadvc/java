@@ -57,10 +57,10 @@ public class FileUtils {
     }
 
     public static void fileAccountReader(){
-        Bank.initBankAccountList();
         try {
             inputStream = new FileInputStream(urlFile);
             scanner = new Scanner(inputStream);
+            int count = 0;
             while (scanner.hasNextLine()){
                 String str = scanner.nextLine();
                 if (str.equals(header)){
@@ -70,9 +70,11 @@ public class FileUtils {
                 BankService bankService = new BankServiceImpl();
                 assert c != null;
                 if (!bankService.checkId(c.getId()) && ValidateUtil.validAccount(c)){
-                    Bank.getBankAccount().add(c);
+                    Bank.getBankAccountList().add(c);
+                    count++;
                 }
             }
+            System.out.printf("Import data of %d customer successfully!!!\n", count);
         }catch (FileNotFoundException e) {
             System.err.println("File not found!" + e.getMessage());
         } finally {
@@ -138,7 +140,7 @@ public class FileUtils {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        for(BankAccount bankAccount : Bank.getBankAccount()) {
+        for(BankAccount bankAccount : Bank.getBankAccountList()) {
             try {
                 writer.write(
                         bankAccount.getId() + "|" + bankAccount.getName() + "|" +

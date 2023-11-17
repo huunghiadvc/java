@@ -43,32 +43,35 @@ public class TransactionDaoimpl implements TransactionDao {
     }
 
     @Override
-    public void updateTransaction(){
-        for (Transaction tran : TransactionList.getTransactionList()) {
-            for (BankAccount acc : Bank.getBankAccount()) {
-                if (!tran.getCardId().equals(acc.getCardId())){
-                    continue;
-                }
-                long balance = 0;
-                TransferType type = TransferType.valueOf(tran.getTransactionType());
-                switch (type){
-                    case SEND -> {
-                        if (!(acc.getBalance() > tran.getTransactionAmount())){
-                            System.err.println("Account has insufficient funds!");
-                            break;
+    public void updateTrans(){
+        if (!TransactionList.getTransactionList().isEmpty()){
+            for (Transaction tran : TransactionList.getTransactionList()) {
+                for (BankAccount acc : Bank.getBankAccountList()) {
+                    if (!tran.getCardId().equals(acc.getCardId())){
+                        continue;
+                    }
+                    long balance = 0;
+                    TransferType type = TransferType.valueOf(tran.getTransactionType().toUpperCase());
+                    switch (type){
+                        case SEND -> {
+                            if (!(acc.getBalance() > tran.getTransactionAmount())){
+                                System.err.println("Account has insufficient funds!");
+                                break;
+                            }
+                            acc.setBalance(acc.getBalance() - tran.getTransactionAmount());
                         }
-                        acc.setBalance(acc.getBalance() - tran.getTransactionAmount());
+                        case RECEIVE -> {
+                            acc.setBalance(acc.getBalance() + tran.getTransactionAmount());
+                        }
+                        default -> {
+                            System.out.println("Error transfer type!");
+                        }
                     }
-                    case RECEIVE -> {
-                        acc.setBalance(acc.getBalance() + tran.getTransactionAmount());
-                    }
-                    default -> {
-                        System.out.println("Error transfer type!");
-                    }
+                    updateDatabase(tran.getCardId(), balance);
                 }
-                acc.setBalance(balance);
-                updateDatabase(tran.getCardId(), balance);
             }
+        } else {
+            System.err.println("Transaction list is empty! Please import first!");
         }
     }
 

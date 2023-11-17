@@ -8,35 +8,18 @@ import java.util.List;
 
 @ToString
 public class Bank {
-    @Getter
     private static List<BankAccount> bankAccount;
 
-    public static void initBankAccountList(){
+    public static List<BankAccount> getBankAccountList(){
         if (bankAccount == null){
             bankAccount = new ArrayList<>();
         }
-    }
-
-    public static void show(List<BankAccount> bankAccountList) {
-        for (BankAccount bankAccount : bankAccountList) {
-            System.out.println(bankAccount);
-        }
-    }
-
-    public static BankAccount searchAccount(Long id){
-        for (BankAccount cus: bankAccount) {
-            if (cus.getId() == id){
-                return cus;
-            }
-        }
-        return null;
+        return bankAccount;
     }
 
     public static Boolean checkBankData(){
         if (bankAccount.isEmpty()){
-            if (bankAccount == null){
-                initBankAccountList();
-            }
+            getBankAccountList();
             System.err.println("BANK DATA IS EMPTY!!!");
             return false;
         }

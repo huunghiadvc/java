@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface TransactionDao {
     Boolean insert(Transaction transactionLog);
-    void updateTransaction();
+    void updateTrans();
     void updateDatabase (String cardId, long balance);
 }

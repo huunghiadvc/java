@@ -11,12 +11,12 @@ import java.time.LocalDate;
 public class BankServiceImpl implements BankService {
     @Override
     public void removeAccount(BankAccount account) {
-        Bank.getBankAccount().remove(account);
+        Bank.getBankAccountList().remove(account);
     }
 
     @Override
     public boolean checkId(long id) {
-        for (BankAccount bankAccount : Bank.getBankAccount()) {
+        for (BankAccount bankAccount : Bank.getBankAccountList()) {
             if (bankAccount.getId() == id) {
                 return true;
             }
@@ -26,8 +26,28 @@ public class BankServiceImpl implements BankService {
 
     @Override
     public void show() {
-        if (Bank.checkBankData()){
-            Bank.show(Bank.getBankAccount());
+        for (BankAccount bankAccount : Bank.getBankAccountList()) {
+            System.out.println(bankAccount.toString());
         }
+    }
+
+    @Override
+    public BankAccount searchAccount(long id) {
+        for (BankAccount cus: Bank.getBankAccountList()) {
+            if (cus.getId() == id){
+                return cus;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public boolean checkBankData() {
+        if (Bank.getBankAccountList().isEmpty()){
+            Bank.getBankAccountList();
+            System.err.println("BANK DATA IS EMPTY!!!");
+            return false;
+        }
+        return true;
     }
 }

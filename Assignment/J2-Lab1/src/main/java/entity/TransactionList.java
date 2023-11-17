@@ -6,6 +6,9 @@ import java.util.List;
 public class TransactionList {
     private static List<Transaction> transactionList;
 
+    private TransactionList() {
+    }
+
     public static List<Transaction> getTransactionList(){
         if (transactionList == null){
             transactionList = new ArrayList<>();

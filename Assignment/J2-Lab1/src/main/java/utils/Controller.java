@@ -36,8 +36,7 @@ public class Controller {
 
             case 2:
 //                System.out.println("Please wait for update!");
-                if (Bank.getBankAccount() == null | Bank.getBankAccount().isEmpty()){
-                    Bank.initBankAccountList();
+                if (Bank.getBankAccountList().isEmpty()){
                     System.err.println("BANK ACCOUNT IS EMPTY!!!");
                     break;
                 }
@@ -56,13 +55,13 @@ public class Controller {
                 break;
 
             case 3:
-                if (Bank.checkBankData()){
+                if (bankService.checkBankData()){
                     System.out.println("Input bank account ID to delete: ");
                     userChoose = GetInput.getString();
                     if (userChoose.matches(".*[0-9].*")) {
 
                         bankAccountId = Long.parseLong(userChoose);
-                        bankAccountSearch = Bank.searchAccount(bankAccountId);
+                        bankAccountSearch = bankService.searchAccount(bankAccountId);
 
                         System.err.println("Please input Y to confirm remove customer below:");
                         System.out.println(bankAccountSearch + "\n");
@@ -91,7 +90,6 @@ public class Controller {
                         System.err.println("Import data failure!!!");
                         break;
                     }
-                    System.out.printf("Import data of %d customer successfully!!!\n", Bank.getBankAccount().size());
                 } else {
                     System.err.println("Import data failure! File not found!");
                 }
@@ -105,14 +103,14 @@ public class Controller {
                 break;
 
             case 8:
-                if (!Bank.checkBankData()){
-                    System.err.println("BANK ACCOUNT IS EMPTY!!!");
-                    break;
-                }
                 if (!FileUtils.fileCheck()){
                     FileUtils.createFile();
                 }
-                FileUtils.fileWritter();
+                if (!bankService.checkBankData()){
+                    FileUtils.fileWritter();
+                    break;
+                }
+                System.err.println("BANK ACCOUNT IS EMPTY!!!");
                 break;
 
             case 9:
@@ -125,12 +123,12 @@ public class Controller {
 
 
             case 10:
-                if (Bank.getBankAccount().isEmpty()){
+                if (Bank.getBankAccountList().isEmpty()){
                     System.out.println("Bank account is empty!\nPlease import first!");
                     break;
                 }
                 BankAccountDao cusDao = new BankAccountDaoImpl();
-                for (BankAccount cus : Bank.getBankAccount()) {
+                for (BankAccount cus : Bank.getBankAccountList()) {
                     cusDao.insert(cus);
                 }
                 break;
@@ -150,8 +148,7 @@ public class Controller {
                 break;
 
             case 12:
-                transactionListService.update();
-                transDao.updateTransaction();
+                transDao.updateTrans();
                 break;
 
             case 13:

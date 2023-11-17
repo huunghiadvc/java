@@ -19,7 +19,7 @@ public class BankAccount {
     private String name;
     private String cardType;
     private String cardId;
-    private Long balance;
+    private long balance;
     private LocalDate dateOfBirth;
     private String citizenIDCard;
     private String tel;

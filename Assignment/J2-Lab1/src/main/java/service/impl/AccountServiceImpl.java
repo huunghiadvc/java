@@ -1,5 +1,6 @@
 package service.impl;
 
+import consts.CardType;
 import entity.Bank;
 import entity.BankAccount;
 import service.AccountService;
@@ -12,30 +13,26 @@ import java.time.LocalDate;
 public class AccountServiceImpl implements AccountService {
     @Override
     public void addAccount() {
-        long customer_id;
-        String customer_name;
-        String customer_cardType;
-        String customer_cardId;
-        LocalDate customer_dateOfBirth;
-        String customer_citizenIDCard = "";
-        String customer_tel;
-        String customer_address;
+        long acc_id;
+        String acc_name;
+        String acc_cardType;
+        String acc_cardId;
+        LocalDate acc_dateOfBirth;
+        String acc_citizenIDCard = "";
+        String acc_tel;
+        String acc_address;
         BankService bankService = new BankServiceImpl();
-
-        if (Bank.getBankAccount() == null){
-            Bank.initBankAccountList();
-        }
 
         // Input ID
         while (true){
             System.out.println("Input bank account ID: ");
             try {
-                customer_id = GetInput.getLong();
+                acc_id = GetInput.getLong();
             } catch (Exception e) {
                 System.err.println("Invalid ID format!!!");
                 continue;
             }
-            if(bankService.checkId(customer_id)){
+            if(bankService.checkId(acc_id)){
                 System.out.println("Account ID is already exist!");
                 continue;
             }
@@ -45,8 +42,8 @@ public class AccountServiceImpl implements AccountService {
         // Input name
         while (true){
             System.out.println("Input customer name: ");
-            customer_name = GetInput.getString();
-            if (!ValidateUtil.nameValid(customer_name)) {
+            acc_name = GetInput.getString();
+            if (!ValidateUtil.nameValid(acc_name)) {
                 continue;
             }
             break;
@@ -55,18 +52,26 @@ public class AccountServiceImpl implements AccountService {
         //Input card type
         while (true){
             System.out.println("Input customer card type: ");
-            customer_cardType = GetInput.getString();
-//            if (!ValidateCustomerInfo.cardTypeValid(customer_cardType)) {
-//                continue;
-//            }
+            acc_cardType = GetInput.getString();
+            CardType type = CardType.valueOf(acc_cardType.toUpperCase());
+            switch (type){
+                case HYBRID:
+                case JCB:
+                case VISA:
+                    break;
+                default:
+                    System.err.println("Invalid card type!");
+                    continue;
+            }
             break;
         }
 
         //Input card id
         while (true){
             System.out.println("Input customer card ID: ");
-            customer_cardId = GetInput.getString();
-            if (!ValidateUtil.cardIdValid(customer_cardId)) {
+            acc_cardId = GetInput.getString();
+            if (!ValidateUtil.cardIdValid(acc_cardId)) {
+                System.out.println("Invalid card id!");
                 continue;
             }
             break;
@@ -75,8 +80,9 @@ public class AccountServiceImpl implements AccountService {
         // Input date of birth
         while (true){
             System.out.println("Input customer date of birth (yyyy-mm-dd): ");
-            customer_dateOfBirth = GetInput.getDate();
-            if (!ValidateUtil.dateOfBirthValid(customer_dateOfBirth)){
+            acc_dateOfBirth = GetInput.getDate();
+            if (!ValidateUtil.dateOfBirthValid(acc_dateOfBirth)){
+                System.out.println("Invalid date of birth!");
                 continue;
             }
             break;
@@ -85,8 +91,8 @@ public class AccountServiceImpl implements AccountService {
         //Input citizen id card
         while (true){
             System.out.println("Input customer citizen ID card: ");
-            customer_citizenIDCard = GetInput.getString();
-            if (!ValidateUtil.citizenIdValid(customer_citizenIDCard)) {
+            acc_citizenIDCard = GetInput.getString();
+            if (!ValidateUtil.citizenIdValid(acc_citizenIDCard)) {
                 System.err.println("Invalid citizen ID card!");
                 continue;
             }
@@ -96,8 +102,8 @@ public class AccountServiceImpl implements AccountService {
         // Input phone number
         while (true){
             System.out.println("Input customer phone number: ");
-            customer_tel = GetInput.getString();
-            if (!ValidateUtil.telValid(customer_tel)) {
+            acc_tel = GetInput.getString();
+            if (!ValidateUtil.telValid(acc_tel)) {
                 System.err.println("Phone numbers cannot contain letters or characters!");
                 continue;
             }
@@ -107,25 +113,25 @@ public class AccountServiceImpl implements AccountService {
         // Input address
         while (true){
             System.out.println("Input customer address: ");
-            customer_address = GetInput.getString();
-            if (!ValidateUtil.addressValid(customer_address)) {
+            acc_address = GetInput.getString();
+            if (!ValidateUtil.addressValid(acc_address)) {
                 continue;
             }
             break;
         }
 
         BankAccount c = BankAccount.builder()
-                .id(customer_id)
-                .name(customer_name)
-                .cardType(customer_cardType)
-                .cardId(customer_cardId)
-                .dateOfBirth(customer_dateOfBirth)
-                .citizenIDCard(customer_citizenIDCard)
-                .tel(customer_tel)
-                .address(customer_address)
+                .id(acc_id)
+                .name(acc_name)
+                .cardType(acc_cardType)
+                .cardId(acc_cardId)
+                .dateOfBirth(acc_dateOfBirth)
+                .citizenIDCard(acc_citizenIDCard)
+                .tel(acc_tel)
+                .address(acc_address)
                 .build();
-        Bank.getBankAccount().add(c);
-        System.err.println("|---- Add Customer Successfully ----|");
+        Bank.getBankAccountList().add(c);
+        System.err.println("|---- Add Account Successfully ----|");
     }
 
     @Override
