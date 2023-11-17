@@ -32,24 +32,6 @@ public class Bank {
         return null;
     }
 
-    public static BankAccount searchAccountByCitizenID(String str){
-        for (BankAccount cus: bankAccount) {
-            if (cus.getCitizenIDCard().equals(str)){
-                return cus;
-            }
-        }
-        return null;
-    }
-
-    public static BankAccount searchAccountByCardId(String cardId){
-        for (BankAccount cus: bankAccount) {
-            if (cus.getCitizenIDCard().equals(cardId)){
-                return cus;
-            }
-        }
-        return null;
-    }
-
     public static Boolean checkBankData(){
         if (bankAccount.isEmpty()){
             if (bankAccount == null){

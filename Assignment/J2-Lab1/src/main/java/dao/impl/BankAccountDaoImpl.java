@@ -2,13 +2,13 @@ package dao.impl;
 
 import config.DataBaseConnect;
 import consts.StringSql;
-import dao.CustomerDao;
+import dao.BankAccountDao;
 import entity.BankAccount;
 
 import java.sql.*;
 import java.time.LocalDate;
 
-public class CustomerDaoImpl implements CustomerDao {
+public class BankAccountDaoImpl implements BankAccountDao {
 
     @Override
     public Boolean insert(BankAccount u) throws SQLException {

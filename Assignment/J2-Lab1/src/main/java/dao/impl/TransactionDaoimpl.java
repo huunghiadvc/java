@@ -5,7 +5,10 @@ import consts.StringSql;
 import consts.TransferType;
 import dao.TransactionDao;
 import entity.Bank;
+import entity.BankAccount;
 import entity.Transaction;
+import entity.TransactionList;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -18,7 +21,7 @@ import java.util.List;
 public class TransactionDaoimpl implements TransactionDao {
 
     @Override
-    public Boolean insert(Transaction transaction) {
+    public Boolean insert(Transaction tran) {
         String sql = StringSql.INSERT_INTO.val + StringSql.SPACE.val +
                 "`transaction_log` (card_type, card_id, transaction_type, transaction_amount, transaction_time)"
                 + " values (?, ?, ?, ?, ?)";
@@ -26,11 +29,11 @@ public class TransactionDaoimpl implements TransactionDao {
         PreparedStatement preStmt;
         try {
             preStmt = connect.prepareStatement(sql);
-            Timestamp date = new Timestamp(transaction.getTransactionTime().getTime());
-            preStmt.setString(1, transaction.getCardType());
-            preStmt.setString(2, transaction.getCardId());
-            preStmt.setString(3, transaction.getTransactionType());
-            preStmt.setLong(4, transaction.getTransactionAmount());
+            Timestamp date = new Timestamp(tran.getTransactionTime().getTime());
+            preStmt.setString(1, tran.getCardType());
+            preStmt.setString(2, tran.getCardId());
+            preStmt.setString(3, tran.getTransactionType());
+            preStmt.setLong(4, tran.getTransactionAmount());
             preStmt.setTimestamp(5, date);
             preStmt.execute();
             return true;
@@ -40,33 +43,38 @@ public class TransactionDaoimpl implements TransactionDao {
     }
 
     @Override
-    public void updateTransaction(List<Transaction> transaction){
-        Bank.getBankAccount().forEach(cus -> {
-            for (Transaction tran : transaction) {
-                if (tran.getCardId().equals(cus.getCardId())){
-                    long balance = 0;
-                    if ( tran.getTransactionType().equalsIgnoreCase(TransferType.SEND.val)
-                            &&
-                         tran.getTransactionAmount() <= cus.getBalance()){
-                        balance = cus.getBalance() - tran.getTransactionAmount();
-                        cus.setBalance(balance);
-                    } else
-                    if (tran.getTransactionType().equalsIgnoreCase(TransferType.RECEIVE.val)){
-                        balance = cus.getBalance() + tran.getTransactionAmount();
-                        cus.setBalance(balance);
-                    } else {
-                        System.out.println("Transfer type error!");
-                        continue;
-                    }
-                    updateDatabase(tran.getCardId(), balance);
+    public void updateTransaction(){
+        for (Transaction tran : TransactionList.getTransactionList()) {
+            for (BankAccount acc : Bank.getBankAccount()) {
+                if (!tran.getCardId().equals(acc.getCardId())){
+                    continue;
                 }
+                long balance = 0;
+                TransferType type = TransferType.valueOf(tran.getTransactionType());
+                switch (type){
+                    case SEND -> {
+                        if (!(acc.getBalance() > tran.getTransactionAmount())){
+                            System.err.println("Account has insufficient funds!");
+                            break;
+                        }
+                        acc.setBalance(acc.getBalance() - tran.getTransactionAmount());
+                    }
+                    case RECEIVE -> {
+                        acc.setBalance(acc.getBalance() + tran.getTransactionAmount());
+                    }
+                    default -> {
+                        System.out.println("Error transfer type!");
+                    }
+                }
+                acc.setBalance(balance);
+                updateDatabase(tran.getCardId(), balance);
             }
-        });
+        }
     }
 
+    @Override
     public void updateDatabase(String cardId, long balance){
         String sql = "Update bank_account SET balance = ? WHERE card_id = ?";
-        System.out.println(sql);
         Connection connect = DataBaseConnect.getConnection();
         PreparedStatement preStmt;
         try {

@@ -1,22 +1,19 @@
 
-import entity.Bank;
-import entity.BankAccount;
 import utils.Controller;
-import utils.MenuUtils;
+import utils.MainMenu;
 
 import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) {
         while (true){
-            MenuUtils.mainMenu();
+            MainMenu.show();
             try {
                 Controller.userSelectionThreading();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
-
     }
 
 }

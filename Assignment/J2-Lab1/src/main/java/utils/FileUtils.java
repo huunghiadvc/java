@@ -3,16 +3,16 @@ package utils;
 import dao.impl.TransactionDaoimpl;
 import entity.*;
 import org.apache.commons.lang3.StringUtils;
+import service.BankService;
+import service.impl.BankServiceImpl;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class FileUtils {
 
     private static final File urlFile = new File("./src/main/resources/data/customer.txt");
-    private static final File transactionFile = new File("./src/main/resources/data/transaction.txt");
+    private static final File tranFile = new File("./src/main/resources/data/transaction.txt");
     private static final String header = "ID|NAME|CARDTYPE|CARDID|BALANCE|DATEOFBIRTH|CARDNO|MSISDN|ADDRESS|";
     private static final String headerTransaction = "ID|CARDTYPE|CARDID|TRANSACTION_TYPE|TRANSACTION_AMOUNT|TRANSACTION_TIME";
     static Scanner scanner = null;
@@ -23,7 +23,7 @@ public class FileUtils {
     }
 
     public static boolean transactionFileCheck(){
-        return transactionFile.exists();
+        return !tranFile.exists();
     }
 
     public static void createFile(){
@@ -41,7 +41,22 @@ public class FileUtils {
         }
     }
 
-    public static void fileReader(){
+    public static void createTransactionFile(){
+        File f = new File(String.valueOf(tranFile));
+        boolean createFile;
+        try {
+            createFile = f.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if (createFile){
+            System.err.println("Create file at " + tranFile + " successfully!!!");
+        } else {
+            System.err.println("Create file at " + tranFile + " failure!!!");
+        }
+    }
+
+    public static void fileAccountReader(){
         Bank.initBankAccountList();
         try {
             inputStream = new FileInputStream(urlFile);
@@ -52,7 +67,11 @@ public class FileUtils {
                     continue;
                 }
                 BankAccount c = BankAccount.importAccount(str);
-                Bank.getBankAccount().add(c);
+                BankService bankService = new BankServiceImpl();
+                assert c != null;
+                if (!bankService.checkId(c.getId()) && ValidateUtil.validAccount(c)){
+                    Bank.getBankAccount().add(c);
+                }
             }
         }catch (FileNotFoundException e) {
             System.err.println("File not found!" + e.getMessage());
@@ -66,27 +85,45 @@ public class FileUtils {
         }
     }
 
-    public static List<Transaction> transactionReader(){
+    public static void transactionReader(){
         try {
-            inputStream = new FileInputStream(transactionFile);
+            inputStream = new FileInputStream(tranFile);
             scanner = new Scanner(inputStream);
-            List<Transaction> transactionList = new ArrayList<>();
+            int count = 0, check = 0;
+            Transaction tran;
             while (scanner.hasNextLine()) {
                 String str = scanner.nextLine();
                 if (str.equalsIgnoreCase(headerTransaction) || StringUtils.isEmpty(str)) {
                     continue;
                 }
-                transactionList.add(TransactionDaoimpl.getTransaction(str));
+                check++;
+                tran = TransactionDaoimpl.getTransaction(str);
+                if (ValidateUtil.validTran(tran)){
+                    TransactionList.getTransactionList().add(tran);
+                    count++;
+                }
             }
-            for (Transaction e : transactionList
-                 ) {
-                System.out.println(e.toString());
+            if (count != 0){
+                if (count == check){
+                    System.out.printf("Import %d of transaction successfully!", count);
+                }
+                if (count < check){
+                    System.out.printf("Import %d of transaction successfully!", count);
+                    System.out.printf("Import %d of transaction failure!", check - count);
+                }
+            } else {
+                System.out.printf("Import %d of transaction failure!", check);
             }
-            return transactionList;
         }catch (FileNotFoundException e) {
             System.err.println("File not found!" + e.getMessage());
+        } finally {
+            try {
+                assert inputStream != null;
+                inputStream.close();
+            } catch (IOException e) {
+                System.err.println("IOException " + e.getMessage());
+            }
         }
-        return null;
     }
 
     public static void fileWritter(){
@@ -108,6 +145,30 @@ public class FileUtils {
                                 bankAccount.getCardType() + "|" + bankAccount.getCardId() + "|" +
                                 bankAccount.getDateOfBirth() + "|" + bankAccount.getCitizenIDCard() + "|" +
                                 bankAccount.getTel() + "|" + bankAccount.getAddress()
+                );
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public static void transactionFileWritter(){
+        FileWriter writer;
+        try {
+            writer = new FileWriter(tranFile, true);
+            if (FileUtils.transactionFileCheck()){
+                FileUtils.createTransactionFile();
+                writer.write(headerTransaction);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        for(Transaction tran : TransactionList.getTransactionList()) {
+            try {
+                writer.write(
+                        tran.getId() + "|" + tran.getCardType() + "|" +
+                                tran.getCardId() + "|" + tran.getTransactionType() + "|" +
+                                tran.getTransactionAmount() + "|" + tran.getTransactionTime()
                 );
             } catch (IOException e) {
                 throw new RuntimeException(e);

@@ -1,11 +1,16 @@
 package utils;
 
-import consts.TransferType;
-import dao.CustomerDao;
+import dao.BankAccountDao;
 import dao.TransactionDao;
-import dao.impl.CustomerDaoImpl;
+import dao.impl.BankAccountDaoImpl;
 import dao.impl.TransactionDaoimpl;
 import entity.*;
+import service.AccountService;
+import service.BankService;
+import service.TransactionService;
+import service.impl.AccountServiceImpl;
+import service.impl.BankServiceImpl;
+import service.impl.TransactionServiceImpl;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -16,50 +21,43 @@ public class Controller {
         String userConfirm = "";
         long bankAccountId;
         BankAccount bankAccountSearch;
+        AccountService accountService = new AccountServiceImpl();
+        BankService bankService = new BankServiceImpl();
+        TransactionDao transDao = new TransactionDaoimpl();
+        TransactionService transactionListService = new TransactionServiceImpl();
 
         String userChoose = GetInput.getString();
 
         switch (Integer.parseInt(userChoose)){
+
             case 1:
-                BankAccount.addCustomer();
+                accountService.addAccount();
                 break;
 
             case 2:
-                if (Bank.checkBankData()){
-                    Bank.show(Bank.getBankAccount());
+//                System.out.println("Please wait for update!");
+                if (Bank.getBankAccount() == null | Bank.getBankAccount().isEmpty()){
+                    Bank.initBankAccountList();
+                    System.err.println("BANK ACCOUNT IS EMPTY!!!");
                     break;
                 }
-                System.out.println("Bank account is empty!\nPlease import first!");
+                while (true){
+                    System.out.println("Input bank account ID to edit: ");
+                    userChoose = GetInput.getString();
+                    if (!ValidateUtil.idValid(userChoose)) {
+                        System.out.println("Please input integer format!");
+                        continue;
+                    }
+                    bankAccountId = Long.parseLong(userChoose);
+                    if (bankService.checkId(bankAccountId)){
+                        if (accountService.editAccount(bankAccountId)) break;
+                    }
+                }
                 break;
 
             case 3:
-                System.out.println("Please wait for update!");
-//                if (Bank.getBankAccount() == null){
-//                    Bank.initBankAccountList();
-//                    System.err.println("BANK ACCOUNT IS EMPTY!!!");
-//                    break;
-//                }
-//                if (!Bank.getBankAccount().isEmpty()){
-//                    System.out.println("Input customer ID to edit: ");
-//                    userChoose = GetInput.getString();
-//                    if (userChoose.matches(".*[0-9].*")) {
-//
-//                        bankAccountId = Long.parseLong(userChoose);
-//                        bankAccountSearch = Bank.searchAccount(bankAccountId);
-//
-//                        System.out.println("Input Y to confirm data change!");
-//                        userConfirm = GetInput.getString();
-//
-//                        if (userConfirm.equalsIgnoreCase("Y")){
-//                            Bank.getBankAccount().remove(bankAccountSearch);
-//                        }
-//                    }
-//                }
-                break;
-
-            case 4:
                 if (Bank.checkBankData()){
-                    System.out.println("Input customer ID to delete: ");
+                    System.out.println("Input bank account ID to delete: ");
                     userChoose = GetInput.getString();
                     if (userChoose.matches(".*[0-9].*")) {
 
@@ -71,27 +69,24 @@ public class Controller {
                         userConfirm = GetInput.getString();
 
                         if (userConfirm.equalsIgnoreCase("Y")){
-                            Bank.getBankAccount().remove(bankAccountSearch);
+                            bankService.removeAccount(bankAccountSearch);
                         }
                     }
                 }
                 break;
 
+            case 4:
+                bankService.show();
+                break;
+
             case 5:
-                if (!Bank.checkBankData()){
-                    System.err.println("BANK ACCOUNT IS EMPTY!!!");
-                    break;
-                }
-                if (!FileUtils.fileCheck()){
-                    FileUtils.createFile();
-                }
-                FileUtils.fileWritter();
+                transactionListService.show();
                 break;
 
             case 6:
                 if (FileUtils.fileCheck()){
                     try {
-                        FileUtils.fileReader();
+                        FileUtils.fileAccountReader();
                     } catch (Exception e){
                         System.err.println("Import data failure!!!");
                         break;
@@ -103,40 +98,63 @@ public class Controller {
                 break;
 
             case 7:
+                if (FileUtils.transactionFileCheck()){
+                    System.out.println("Transaction file is not exist!");
+                }
+                FileUtils.transactionReader();
+                break;
+
+            case 8:
+                if (!Bank.checkBankData()){
+                    System.err.println("BANK ACCOUNT IS EMPTY!!!");
+                    break;
+                }
+                if (!FileUtils.fileCheck()){
+                    FileUtils.createFile();
+                }
+                FileUtils.fileWritter();
+                break;
+
+            case 9:
+                if (TransactionList.getTransactionList().isEmpty()){
+                    System.err.println("BANK ACCOUNT IS EMPTY!!!");
+                    break;
+                }
+                FileUtils.transactionFileWritter();
+                break;
+
+
+            case 10:
                 if (Bank.getBankAccount().isEmpty()){
                     System.out.println("Bank account is empty!\nPlease import first!");
                     break;
                 }
-                CustomerDao cusDao = new CustomerDaoImpl();
+                BankAccountDao cusDao = new BankAccountDaoImpl();
                 for (BankAccount cus : Bank.getBankAccount()) {
                     cusDao.insert(cus);
                 }
                 break;
 
-            case 8:
-                TransactionDao transDao = new TransactionDaoimpl();
-                if (FileUtils.transactionFileCheck()){
-                    List<Transaction> transactionLog = FileUtils.transactionReader();
-                    int count = 0;
-                    assert transactionLog != null;
-                    for (Transaction tran : transactionLog) {
-                        if (transDao.insert(tran)){
-                            count++;
-                        }
-                    }
-                    if (count == transactionLog.size()){
-                        System.out.printf("Insert %d transaction log to database successfully!", count);
-                    } else {
-                        System.out.printf("Insert %d transaction log to database successfully!", count);
-                        System.err.printf("Insert %d transaction log to database failure!", count);
-                    }
-                    transDao.updateTransaction(transactionLog);
-                } else {
-                    System.err.println("Import data failure! File not found!");
+            case 11:
+                if (TransactionList.getTransactionList().isEmpty()){
+                    System.out.println("Transaction data is empty!");
                 }
+                int count = 0;
+                List<Transaction> transactionList = TransactionList.getTransactionList();
+                for (Transaction tran : transactionList) {
+                    if (transDao.insert(tran)){
+                        count++;
+                    }
+                }
+                System.out.printf("Import %d transaction to database successfully!", count);
                 break;
 
-            case 9:
+            case 12:
+                transactionListService.update();
+                transDao.updateTransaction();
+                break;
+
+            case 13:
                 System.out.println("Input Y to exist program or N to cancel!");
                 userChoose = GetInput.getString();
                 if (userChoose.equalsIgnoreCase("Y")){
@@ -145,7 +163,7 @@ public class Controller {
                 break;
 
             default:
-                System.err.println("Please choose 1-5!");
+                System.err.println("Please choose 1-11!");
         }
     }
 }

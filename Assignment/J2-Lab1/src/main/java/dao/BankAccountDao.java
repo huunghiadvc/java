@@ -4,7 +4,7 @@ import entity.BankAccount;
 
 import java.sql.SQLException;
 
-public interface CustomerDao {
+public interface BankAccountDao {
     Boolean insert(BankAccount stu) throws SQLException;
 
     BankAccount getById(int id);
