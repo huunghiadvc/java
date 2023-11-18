@@ -16,14 +16,4 @@ public class Bank {
         }
         return bankAccount;
     }
-
-    public static Boolean checkBankData(){
-        if (bankAccount.isEmpty()){
-            getBankAccountList();
-            System.err.println("BANK DATA IS EMPTY!!!");
-            return false;
-        }
-        return true;
-    }
-
 }

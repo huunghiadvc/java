@@ -97,7 +97,7 @@ public class Controller {
 
             case 7:
                 if (FileUtils.transactionFileCheck()){
-                    System.out.println("Transaction file is not exist!");
+                    System.err.println("Transaction file is not exist!");
                 }
                 FileUtils.transactionReader();
                 break;
@@ -124,7 +124,7 @@ public class Controller {
 
             case 10:
                 if (Bank.getBankAccountList().isEmpty()){
-                    System.out.println("Bank account is empty!\nPlease import first!");
+                    System.err.println("BANK ACCOUNT IS EMPTY!\nPLEASE IMPORT FIRST!");
                     break;
                 }
                 BankAccountDao cusDao = new BankAccountDaoImpl();
@@ -135,7 +135,7 @@ public class Controller {
 
             case 11:
                 if (TransactionList.getTransactionList().isEmpty()){
-                    System.out.println("Transaction data is empty!");
+                    System.err.println("TRANSACTION LOG IS EMPTY!");
                 }
                 int count = 0;
                 List<Transaction> transactionList = TransactionList.getTransactionList();

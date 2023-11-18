@@ -26,8 +26,10 @@ public class BankServiceImpl implements BankService {
 
     @Override
     public void show() {
-        for (BankAccount bankAccount : Bank.getBankAccountList()) {
-            System.out.println(bankAccount.toString());
+        if (checkBankData()){
+            for (BankAccount bankAccount : Bank.getBankAccountList()) {
+                System.out.println(bankAccount.toString());
+            }
         }
     }
 
@@ -44,7 +46,6 @@ public class BankServiceImpl implements BankService {
     @Override
     public boolean checkBankData() {
         if (Bank.getBankAccountList().isEmpty()){
-            Bank.getBankAccountList();
             System.err.println("BANK DATA IS EMPTY!!!");
             return false;
         }
