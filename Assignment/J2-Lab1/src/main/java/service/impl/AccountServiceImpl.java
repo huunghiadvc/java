@@ -3,6 +3,7 @@ package service.impl;
 import consts.CardType;
 import entity.Bank;
 import entity.BankAccount;
+import org.apache.commons.lang3.StringUtils;
 import service.AccountService;
 import service.BankService;
 import utils.GetInput;
@@ -138,5 +139,24 @@ public class AccountServiceImpl implements AccountService {
     public boolean editAccount(long id) {
         System.out.println("Please wait for update!");
         return true;
+    }
+
+    @Override
+    public BankAccount accountBuild(String line) {
+        if (StringUtils.isEmpty(line)) return null;
+
+        String[] chars = line.split("\\|");
+
+        return BankAccount.builder()
+                .id(Long.parseLong(chars[0]))
+                .name(String.valueOf(chars[1]))
+                .cardType(String.valueOf(chars[2]))
+                .cardId(String.valueOf(chars[3]))
+                .balance(Long.parseLong(chars[4]))
+                .dateOfBirth(LocalDate.parse(chars[5]))
+                .citizenIDCard(String.valueOf(chars[6]))
+                .tel(String.valueOf(chars[7]))
+                .address(String.valueOf(chars[8]))
+                .build();
     }
 }

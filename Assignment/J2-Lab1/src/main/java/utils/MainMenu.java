@@ -20,7 +20,7 @@ public class MainMenu {
         System.out.println("        --- DATABASE SERVICE ---");
         System.out.println("    10. Insert account data to database.");
         System.out.println("    11. Insert transaction data to database.");
-        System.out.println("    12. Update transaction.");
+        System.out.println("    12. Update transaction to list and database.");
         System.out.println("    13. Exit.");
         System.out.println(" ");
         System.out.println("Input your choose: ");

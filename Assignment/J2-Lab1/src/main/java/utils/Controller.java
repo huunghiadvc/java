@@ -24,7 +24,6 @@ public class Controller {
         AccountService accountService = new AccountServiceImpl();
         BankService bankService = new BankServiceImpl();
         TransactionDao transDao = new TransactionDaoimpl();
-        TransactionService transactionListService = new TransactionServiceImpl();
 
         String userChoose = GetInput.getString();
 
@@ -79,6 +78,7 @@ public class Controller {
                 break;
 
             case 5:
+                TransactionService transactionListService = new TransactionServiceImpl();
                 transactionListService.show();
                 break;
 
@@ -160,7 +160,7 @@ public class Controller {
                 break;
 
             default:
-                System.err.println("Please choose 1-11!");
+                System.err.println("Please choose 1-13!");
         }
     }
 }

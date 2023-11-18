@@ -3,7 +3,9 @@ package utils;
 import dao.impl.TransactionDaoimpl;
 import entity.*;
 import org.apache.commons.lang3.StringUtils;
+import service.AccountService;
 import service.BankService;
+import service.impl.AccountServiceImpl;
 import service.impl.BankServiceImpl;
 
 import java.io.*;
@@ -57,6 +59,7 @@ public class FileUtils {
     }
 
     public static void fileAccountReader(){
+        AccountService accountService = new AccountServiceImpl();
         try {
             inputStream = new FileInputStream(urlFile);
             scanner = new Scanner(inputStream);
@@ -66,11 +69,11 @@ public class FileUtils {
                 if (str.equals(header)){
                     continue;
                 }
-                BankAccount c = BankAccount.importAccount(str);
+                BankAccount acc = accountService.accountBuild(str);
                 BankService bankService = new BankServiceImpl();
-                assert c != null;
-                if (!bankService.checkId(c.getId()) && ValidateUtil.validAccount(c)){
-                    Bank.getBankAccountList().add(c);
+                assert acc != null;
+                if (!bankService.checkId(acc.getId()) && ValidateUtil.validAccount(acc)){
+                    Bank.getBankAccountList().add(acc);
                     count++;
                 }
             }
