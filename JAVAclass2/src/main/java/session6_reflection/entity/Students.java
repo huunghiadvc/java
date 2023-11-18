@@ -24,11 +24,11 @@ import java.util.Date;
 public class Students implements Human, Animal {
     @Id(columnName = "id")
     private int id;
-    @Column(columnName = "name")
+    @Column(columnName = "name" , dataType = "VARCHAR")
     private String name;
-    @Column(columnName = "date_of_birth")
+    @Column(columnName = "date_of_birth" , dataType = "TimeStamp")
     private Date dateOfBirth;
-    @Column(columnName = "address")
+    @Column(columnName = "address" , dataType = "VARCHAR")
     private String address;
 
 }

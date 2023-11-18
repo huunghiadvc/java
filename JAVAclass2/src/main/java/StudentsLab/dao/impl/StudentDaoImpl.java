@@ -9,8 +9,7 @@ import java.sql.*;
 public class StudentDaoImpl implements CustomerDao {
 
     private Connection getConnect(){
-        DataBaseConnect dataBaseConnect = new DataBaseConnect();
-        return dataBaseConnect.getConnection();
+        return DataBaseConnect.getConnection();
     }
 
     @Override

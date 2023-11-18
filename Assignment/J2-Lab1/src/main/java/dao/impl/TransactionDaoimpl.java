@@ -52,6 +52,7 @@ public class TransactionDaoimpl implements TransactionDao {
                     }
                     long balance = 0;
                     TransferType type = TransferType.valueOf(tran.getTransactionType().toUpperCase());
+
                     switch (type){
                         case SEND -> {
                             if (!(acc.getBalance() > tran.getTransactionAmount())){

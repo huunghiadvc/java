@@ -11,10 +11,10 @@ import java.time.LocalDate;
 public class BankAccountDaoImpl implements BankAccountDao {
 
     @Override
-    public Boolean insert(BankAccount u) throws SQLException {
-        String sqlInsert = " insert into " +
-                "`bank_account` (name, card_type, card_id, balance, date_of_birth, card_no, phone, address)"
-                + " values (?, ?, ?, ?, ?, ?, ?, ?)";
+    public Boolean insert(BankAccount u){
+        String sqlInsert = "INSERT INTO `bank_account`" +
+                " (name, card_type, card_id, balance, date_of_birth, card_no, phone, address)" +
+                " values (?, ?, ?, ?, ?, ?, ?, ?)";
         Connection connect = DataBaseConnect.getConnection();
         PreparedStatement preStmt;
         try {
