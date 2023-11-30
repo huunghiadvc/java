@@ -1,5 +1,5 @@
 package DesignPattern.Strategy.Strategy;
 
-public interface Sale {
+public interface Discount {
     double DoDiscount(double price);
 }

@@ -1,8 +1,15 @@
 package DesignPattern.Strategy.Test.Factory;
 
+import DesignPattern.Strategy.Test.entity.Customer;
+
+import java.sql.ResultSet;
 import java.util.Map;
 
-public class JpaRepoCloneImpl<K, V> implements JpaRepo<K, V> {
+public abstract class JpaRepoCloneImpl<K, V> implements JpaRepo<K, V> {
+    public JpaRepoCloneImpl(Class<Customer> customerClass) {
+    }
+
+    protected abstract Map<K, V> rowMapper(ResultSet rs);
 
     @Override
     public V getById(int id) {

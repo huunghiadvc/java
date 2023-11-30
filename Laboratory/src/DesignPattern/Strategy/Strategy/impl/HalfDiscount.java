@@ -1,2 +1,11 @@
-package DesignPattern.Strategy.Strategy.impl;public class HalfDiscount {
+package DesignPattern.Strategy.Strategy.impl;
+
+import DesignPattern.Strategy.Strategy.Discount;
+
+public class HalfDiscount implements Discount {
+
+    @Override
+    public double DoDiscount(double price) {
+        return price * 0.5;
+    }
 }

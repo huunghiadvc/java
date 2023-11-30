@@ -1,4 +1,10 @@
 package DesignPattern.Strategy.Strategy.impl;
 
-public class QuaterDiscount {
+import DesignPattern.Strategy.Strategy.Discount;
+
+public class QuarterDiscount implements Discount {
+    @Override
+    public double DoDiscount(double price) {
+        return price * 0.75;
+    }
 }
