@@ -1,6 +1,6 @@
-package session3.StudentsLab.dao;
+package StudentsLab.dao;
 
-import session3.StudentsLab.entity.Student;
+import StudentsLab.entity.Student;
 
 import java.sql.SQLException;
 

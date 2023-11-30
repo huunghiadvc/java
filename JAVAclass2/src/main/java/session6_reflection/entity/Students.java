@@ -30,5 +30,4 @@ public class Students implements Human, Animal {
     private Date dateOfBirth;
     @Column(columnName = "address" , dataType = "VARCHAR")
     private String address;
-
 }

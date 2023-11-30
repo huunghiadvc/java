@@ -3,14 +3,14 @@ package session8_LinkedList;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
 @Data
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class Student implements Comparable<Student> {
     private int id;

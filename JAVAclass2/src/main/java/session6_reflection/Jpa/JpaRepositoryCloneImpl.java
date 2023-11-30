@@ -121,8 +121,7 @@ public abstract class JpaRepositoryCloneImpl<T> implements JpaRepositoryClone<T>
                 .append(StringSql.SPACE.val).append(StringSql.LIMIT.val)
                 .append(StringSql.SPACE.val).append(limit)
                 .append(StringSql.SPACE.val).append(StringSql.OFFSET.val)
-                .append(StringSql.SPACE.val).append(offset)
-                ;
+                .append(StringSql.SPACE.val).append(offset);
 
         Connection connection = DataBaseConnect.getConnection();
         PreparedStatement preStmt;

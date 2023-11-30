@@ -1,4 +1,4 @@
-package session3.StudentsLab.entity;
+package StudentsLab.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
