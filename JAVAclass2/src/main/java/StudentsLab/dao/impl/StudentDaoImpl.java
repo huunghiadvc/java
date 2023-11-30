@@ -1,8 +1,8 @@
-package StudentsLab.dao.impl;
+package session3.StudentsLab.dao.impl;
 
-import StudentsLab.dao.CustomerDao;
-import StudentsLab.entity.Student;
-import StudentsLab.config.DataBaseConnect;
+import session3.StudentsLab.dao.CustomerDao;
+import session3.StudentsLab.entity.Student;
+import session3.StudentsLab.config.DataBaseConnect;
 
 import java.sql.*;
 

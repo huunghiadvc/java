@@ -1,6 +1,4 @@
-package StudentsLab.config;
-
-import lombok.Getter;
+package session3.StudentsLab.config;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

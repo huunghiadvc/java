@@ -1,4 +1,4 @@
-package StudentsLab.config;
+package session3.StudentsLab.config;
 
 import lombok.Data;
 
