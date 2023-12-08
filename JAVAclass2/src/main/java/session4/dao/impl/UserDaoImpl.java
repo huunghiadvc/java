@@ -1,6 +1,5 @@
 package session4.dao.impl;
 
-import session4.Main;
 import session4.dao.UserDao;
 import org.apache.commons.lang3.StringUtils;
 import session3.DataSource;
@@ -15,9 +14,9 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
 
     @Override
-    public boolean validateUser(String username, String password) {
+    public void validateUser(String username, String password) {
         boolean result = false;
-        if(StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) return result;
+        if(StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) return;
         List<User> userList = new ArrayList<>();
         Connection connect = DataSource.getConnection();
         String sql = "SELECT * FROM `user` WHERE username = ? AND password = ?";
@@ -39,10 +38,6 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        if(!userList.isEmpty()){
-            result = true;
-        }
-        return result;
     }
 
     @Override
@@ -68,11 +63,31 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public User getById(int id) {
+        Connection connect = DataSource.getConnection();
+        String sql = "SELECT * FROM `user_table` WHERE id = ?";
+        // prepaid statement
+        try {
+            PreparedStatement preStmt = connect.prepareStatement(sql);
+            preStmt.setInt(1, id);
+            ResultSet rs = preStmt.executeQuery();
+            User u = null;
+            while (rs.next()){
+                u = rowMapper(rs);
+                break;
+            }
+            return u;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public Boolean insert(User u) {
 
         String sqlInsert = " insert into " +
-                "user_table (username, password, login_fail, status, created_at, updated_at, created_by, updated_by)"
-                + " values (?, ?, ?, ?, ?, ?, ?, ?)";
+                "user_table (username,password,login_fail,status, user_detail, created_at,updated_at,created_by,updated_by) "
+                + " values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         Connection connect = DataSource.getConnection();
         PreparedStatement preStmt;
         try {
@@ -81,10 +96,11 @@ public class UserDaoImpl implements UserDao {
             preStmt.setString (2, u.getPassword());
             preStmt.setInt (3, u.getLoginFail());
             preStmt.setInt (4, u.getStatus());
-            preStmt.setDate (5, new java.sql.Date(u.getCreatedAt().getTime()));
-            preStmt.setDate (6, new java.sql.Date(u.getUpdatedAt().getTime()));
-            preStmt.setString (7, u.getCreatedBy());
-            preStmt.setString (8, u.getUpdatedBy());
+            preStmt.setObject(5, u.getUserDetail());
+            preStmt.setDate (6, new java.sql.Date(u.getCreatedAt().getTime()));
+            preStmt.setDate (7, new java.sql.Date(u.getUpdatedAt().getTime()));
+            preStmt.setString (8, u.getCreatedBy());
+            preStmt.setString (9, u.getUpdatedBy());
             preStmt.execute();
             return true;
         } catch (SQLException e) {
@@ -136,7 +152,30 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Integer count(String sql) {
+    public List<User> findDateIdCard(String year) {
+        Connection connect = DataSource.getConnection();
+        String sql = "SELECT * FROM `user_table` ut WHERE json_extract(ut.user_detail, \"$.dateOfIdCard\") < ?";
+        // prepaid statement
+        try {
+            PreparedStatement preStmt = connect.prepareStatement(sql);
+            preStmt.setString(1, year);
+            ResultSet rs = preStmt.executeQuery();
+            List<User> u = new ArrayList<>();
+            while (rs.next()){
+                u.add(rowMapper(rs));
+            }
+            if (!u.isEmpty()){
+                return u;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    @Override
+    public Integer count() {
+        String sql = "select count(*) from `user_table`";
         Connection connect = DataSource.getConnection();
         PreparedStatement preStmt;
         try {
@@ -160,6 +199,8 @@ public class UserDaoImpl implements UserDao {
             String password = rs.getString("password");
             int loginFail = rs.getInt("login_fail");
             int status = rs.getInt("status");
+            String a = rs.getString("user_detail");
+            Object userDetail = rs.getObject("user_detail");
             Date createdTime = rs.getDate("created_at");
             Date updatedTime = rs.getDate("updated_at");
             String createdBy = rs.getString("created_by");
@@ -170,6 +211,7 @@ public class UserDaoImpl implements UserDao {
                     .password(password)
                     .loginFail(loginFail)
                     .status(status)
+                    .userDetail(userDetail)
                     .createdBy(createdBy)
                     .updatedBy(updatedBy)
                     .createdAt(createdTime)

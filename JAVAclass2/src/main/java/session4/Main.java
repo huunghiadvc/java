@@ -17,6 +17,14 @@ public class Main {
         UserDaoImpl obj = new UserDaoImpl();
         UserService sv = new UserServiceImpl();
 
+        User u = obj.getById(4);
+        System.err.println(u);
+
+        System.out.println("FIND BY CARD YEAR BEFORE 2013:");
+        List<User> a = obj.findDateIdCard("2013-01-01");
+
+        a.forEach(System.out::println);
+
 //        User u = obj.getByUserName("demo1");
 //        System.err.println(u);
 
@@ -30,12 +38,12 @@ public class Main {
 //        userService.register("admin", "admin@123");
 
 
-        int count = obj.count("select count(*) from user_table");
-
-        int limit = 1000;
-        int num = count / limit;
-
-        if (count % limit != 0) num++;
+//        int count = obj.count("select count(*) from user_table");
+//
+//        int limit = 1000;
+//        int num = count / limit;
+//
+//        if (count % limit != 0) num++;
 
 //        Thread[] threads = new Thread[8];
 
@@ -56,19 +64,19 @@ public class Main {
 
 
 //        ExecutorService executor= Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        try {
-            for (int i = 0; i < num; i = i + 3) {
-                ThreadTest threadTest = new ThreadTest(i, limit, obj, sv);
-                Thread t1 = new Thread(threadTest);
-                t1.start();
-                ThreadTest threadTest2 = new ThreadTest(i + 1, limit, obj, sv);
-                Thread t2 = new Thread(threadTest2);
-                t2.start();
-                ThreadTest threadTest3 = new ThreadTest(i + 2, limit, obj, sv);
-                Thread t3 = new Thread(threadTest3);
-                t3.start();
-                t3.join();
-            }
+//        try {
+//            for (int i = 0; i < num; i = i + 3) {
+//                ThreadTest threadTest = new ThreadTest(i, limit, obj, sv);
+//                Thread t1 = new Thread(threadTest);
+//                t1.start();
+//                ThreadTest threadTest2 = new ThreadTest(i + 1, limit, obj, sv);
+//                Thread t2 = new Thread(threadTest2);
+//                t2.start();
+//                ThreadTest threadTest3 = new ThreadTest(i + 2, limit, obj, sv);
+//                Thread t3 = new Thread(threadTest3);
+//                t3.start();
+//                t3.join();
+//            }
 
 //                executor.execute(new Thread(threadTest, String.valueOf(i)));
 //                executor.execute(new Thread(threadTest2, String.valueOf(i+1)));
@@ -83,9 +91,9 @@ public class Main {
 //                Thread thread1 = new Thread(thread);
 //                thread1.start();
 //            }
-            }catch(Exception err){
-                err.printStackTrace();
-            }
+//            }catch(Exception err){
+//                err.printStackTrace();
+//            }
 
 //        executor.shutdown();
 
@@ -99,17 +107,5 @@ public class Main {
 //            }
 //        }
 
-    }
-    private static void waitForThreads(Thread[] threads) {
-        for (Thread thread : threads) {
-            if (thread != null) {
-                try {
-                    thread.join(); // Wait for the thread to finish
-                    System.out.println("Thread has finished running.");
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 }

@@ -24,6 +24,7 @@ public class User {
     private String password;
     private int status;
     private int loginFail;
+    private Object userDetail;
     @JsonSerialize(using = CustomDateSerialize.class)
     @JsonDeserialize(using = CustomDeserialize.class)
     private Date createdAt;

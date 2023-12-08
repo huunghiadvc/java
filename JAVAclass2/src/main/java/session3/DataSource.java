@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DataSource {
     private static final String url = "jdbc:mysql://localhost:3306/huunghia";
     private static final String username = "root";
-    private static final String password = "0972298876a";
+    private static final String password = "123456";
     private static Connection connection;
     public static synchronized Connection getConnection(){
         if (connection == null){

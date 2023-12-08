@@ -27,8 +27,4 @@ public class DataSourceProperties {
             throw new RuntimeException(e);
         }
     }
-
-    public static void main(String[] args) {
-        DataSourceProperties dataSourceProperties = new DataSourceProperties();
-    }
 }

@@ -7,10 +7,12 @@ import java.util.List;
 
 public interface UserDao {
     // tuong tac voi database
-    boolean validateUser(String username , String password);
+    void validateUser(String username , String password);
     User getByUserName(String username);
+    User getById(int id);
     Boolean insert(User u) throws SQLException;
     void update(User u);
     List<User> findAll(int limit , int offset);
-    Integer count(String sql);
+    List<User> findDateIdCard(String year);
+    Integer count();
 }
