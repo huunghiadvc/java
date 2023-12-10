@@ -1,6 +1,5 @@
 package config.properties;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,14 +9,14 @@ import java.io.IOException;
 import java.util.Properties;
 
 @Data
-@NoArgsConstructor
 public class ViettelPostApiProperties {
     private String baseUrl;
     private String login;
     private String getListPostOffice;
+    private String getListService;
     private String username;
     private String password;
-    public void DataSourceProperties(){
+    public ViettelPostApiProperties(){
         FileReader reader = null;
         try {
             reader = new FileReader("./src/main/resources/application.properties");
@@ -28,6 +27,7 @@ public class ViettelPostApiProperties {
             this.setGetListPostOffice(props.getProperty("api.path.viettel-post.get-list-post-office"));
             this.setUsername(props.getProperty("api.path.viettel-post.username"));
             this.setPassword(props.getProperty("api.path.viettel-post.password"));
+            this.setGetListService(props.getProperty("api.path.viettel-post.get-list-service"));
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

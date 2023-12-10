@@ -1,8 +1,11 @@
 package ViettelPostAPI;
 
 import ViettelPostAPI.entity.PostOffice;
+import ViettelPostAPI.process.VPProcess;
+import ViettelPostAPI.service.VPService;
 import ViettelPostAPI.service.client.Impl.VPServiceClientImpl;
 import ViettelPostAPI.service.client.VPServiceClient;
+import ViettelPostAPI.service.impl.VPServiceImpl;
 import const_.VPLoginRes;
 
 import java.io.IOException;
@@ -11,14 +14,10 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws IOException {
 
-        VPServiceClient serviceClient = new VPServiceClientImpl();
-        VPLoginRes u = serviceClient.login();
+        VPService vpService = new VPServiceImpl();
 
-        List<PostOffice> postOffices = serviceClient.getPostOffice(u.getData().getToken());
-
-        System.out.println(u);
-
-        System.out.println(postOffices);
+        Thread b = new VPProcess("Viettel-Post-Process", vpService);
+        b.start();
 
 
 //        UserData u = ClientUtils.login();

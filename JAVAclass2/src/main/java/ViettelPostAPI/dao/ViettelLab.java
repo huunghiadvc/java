@@ -3,7 +3,6 @@ package ViettelPostAPI.dao;
 import StudentsLab.config.DataBaseConnect;
 import ViettelPostAPI.entity.PostOffice;
 import ViettelPostAPI.entity.UserData;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -37,7 +36,7 @@ public class ViettelLab {
                 "latitude  = values(latitude), " +
                 "longitude  = values(longitude)";
         connection = DataBaseConnect.getConnection();
-        PreparedStatement preStmt = null;
+        PreparedStatement preStmt;
         try {
             int index = 0;
             preStmt = connection.prepareStatement(sql);

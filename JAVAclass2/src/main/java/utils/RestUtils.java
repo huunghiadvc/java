@@ -1,6 +1,5 @@
 package utils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.*;
@@ -17,7 +16,6 @@ public class RestUtils {
     private static Logger logger = LogManager.getLogger(RestUtils.class);
 
     public RestUtils() {
-        ObjectMapper objectMapper = new ObjectMapper();
         List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
         converter.setSupportedMediaTypes(Collections.singletonList(MediaType.ALL));
@@ -32,11 +30,12 @@ public class RestUtils {
     }
     // build http entity with token
     private HttpEntity<?> buildEntity(String token, Object body){
-
         HttpHeaders headers = initHeader();
         logger.info("Token : {}", token);
-        if (token != null && !token.isEmpty()){
-            headers.add("token", token);
+        if (token != null){
+            if (!token.isEmpty()){
+                headers.add("token", token);
+            }
         }
 
         return body != null ? new HttpEntity<>(body, headers) : new HttpEntity<>(headers);
@@ -44,8 +43,10 @@ public class RestUtils {
     private HttpEntity<?> buildEntity(String token){
         HttpHeaders headers = initHeader();
         logger.info("Token : {}", token);
-        if (!token.isEmpty()){
-            headers.add("token", token);
+        if (token != null){
+            if (!token.isEmpty()){
+                headers.add("token", token);
+            }
         }
 
         return new HttpEntity<>(headers);
