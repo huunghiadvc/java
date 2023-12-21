@@ -1,15 +1,16 @@
 package service;
 
+import annotations.data.Column;
 import dao.impl.JpaRepoImpl;
 import entity.Product;
-import entity.ProductRepo;
 import utils.InputUtils;
 import utils.validate.ValidateUtils;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProductService extends JpaRepoImpl<Product> {
     public ProductService() {
@@ -37,7 +38,7 @@ public class ProductService extends JpaRepoImpl<Product> {
         return studentList;
     }
 
-    public Product addNewProduct(){
+    public Product inputProduct(){
         String name, producer, productLine, price;
 
         while (true){
@@ -68,20 +69,28 @@ public class ProductService extends JpaRepoImpl<Product> {
         }
 
         while (true){
-            System.out.println("Please enter product line: ");
+            System.out.println("Please enter product price: ");
             price = InputUtils.getString();
-            if (ValidateUtils.priceValid(price)){
+            if (ValidateUtils.numberValid(price)){
                 break;
             }
             System.err.println("Invalid product price!");
         }
+        return new Product(name, producer, productLine, Double.parseDouble(price));
+    }
 
-        try {
-            Product product = new Product(name, producer, productLine, Double.parseDouble(price));
-            ProductRepo.getProductList().add(product);
-            return product;
-        } catch (Exception e){
-            return null;
+    public Map<String, String> inputUpdate(List<Column> columnName){
+        Map<String, String> result = new HashMap<>();
+        String input;
+        for (Column col : columnName) {
+            System.out.println("Please enter new product " + col.columnName() + " :");
+            System.out.println("This step can be skip with null");
+            input = InputUtils.getString();
+            if (input == null){
+                continue;
+            }
+            result.put(col.columnName(), input);
         }
+        return result;
     }
 }

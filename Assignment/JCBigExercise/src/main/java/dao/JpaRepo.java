@@ -1,15 +1,16 @@
 package dao;
 
-import entity.Product;
+import entity.SearchEngine;
 
 import java.util.List;
+import java.util.Map;
 
 public interface JpaRepo<T> {
     void insert(T product);
     void insert(List<T> objList);
     T getById(String id);
-    List<T> getAll();
-    List<T> getAll(int limit , int offset);
-    boolean deleteById(long id);
-    boolean update(long id);
+    List<T> getAll(Integer limit , Integer offset);
+    public List<T> search(SearchEngine searchEngine);
+    void deleteById(long id);
+    void updateById(long id, Map<String, String> updates);
 }

@@ -1,74 +1,41 @@
 package utils;
 
-import dao.JpaRepo;
-import entity.Product;
-import entity.ProductRepo;
-import service.ProductService;
-
-import java.util.List;
-
 public class MenuUtils {
     public static void show(){
         System.out.println("SELECT OPTION BELOW:");
-        System.out.println("    1. Display products.");
-        System.out.println("    2. Find product.");
+        System.out.println("    1. Show products.");
+        System.out.println("    2. Search.");
         System.out.println("    3. Add new product.");
         System.out.println("    4. Update product by id.");
         System.out.println("    5. Delete product by id.");
         System.out.println("    6. Exit.");
         System.out.println("Please input option: ");
     }
-
-    public static void controller(){
-        String userChoose;
-        ProductService service = new ProductService();
-
-        while (true){
-            userChoose = InputUtils.getString();
-            if (!userChoose.matches(".*[0-9].*")){
-                System.err.println("Please input integer");
-                continue;
-            }
-            break;
+    public static class SubMenu {
+        public static void conditionType(){
+            System.out.println("    1. Equal");
+            System.out.println("    2. Not equal");
+            System.out.println("    3. Greater than");
+            System.out.println("    4. Less than");
+            System.out.println("    5. Greater than or equal");
+            System.out.println("    6. Less than or equal");
+            System.out.println("    7. BETWEEN : Between a certain range");
+            System.out.println("    8. LIKE : Search for a pattern");
+            System.out.println("    9. IN : multiple possible values for a column");
         }
-
-        switch (Integer.parseInt(userChoose)){
-            case 1:
-                List<Product> productList = ProductRepo.getProductList();
-                System.out.println(productList);
-                break;
-
-            case 2:
-                System.out.println("Wait for update!");
-                break;
-
-            case 3:
-                Product product = service.addNewProduct();
-                service.insert(product);
-                break;
-
-            case 4:
-
-                // TODO: 11/12/2023 : update product by id
-
-                break;
-
-            case 5:
-                // TODO: 11/12/2023 : delete product by id
-                break;
-
-            case 6:
-                do {
-                    System.out.println("Input Y to confirm exist or N to cancel!");
-                    userChoose = InputUtils.getString();
-                    if (userChoose.equalsIgnoreCase("Y")) {
-                        System.exit(0);
-                    }
-                } while (!userChoose.equalsIgnoreCase("N"));
-                break;
-
-            default:
-                System.err.println("Please select option 1-4!");
+        public static void columnList(){
+            System.out.println("    1. Id");
+            System.out.println("    2. Name");
+            System.out.println("    3. Producer");
+            System.out.println("    4. Line");
+            System.out.println("    5. Price");
+        }
+        public static void moreCondition(){
+            System.out.println("Do you want to extend the conditional sentence?");
+            System.out.println("    1. AND : extend condition with AND");
+            System.out.println("    2. OR : extend condition with OR");
+            System.out.println("    3. LIMIT & OFFSET : set limit and offset");
+            System.out.println("    4. Execute : Don't extend condition and execute the query!");
         }
     }
 }

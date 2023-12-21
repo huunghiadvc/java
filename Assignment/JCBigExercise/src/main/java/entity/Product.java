@@ -8,20 +8,22 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Getter
-@Setter
 @SuperBuilder
-@NoArgsConstructor
-@Table(tableName = "products")
+@Table(tableName = "products", group = "data/")
 public class Product {
     private static long autoId = 1;
     @Id(columnName = "id", type = DataType.BIGINT)
     private long id;
+    @Setter
     @Column(columnName = "name", type = DataType.VARCHAR)
     private String name;
+    @Setter
     @Column(columnName = "producer", type = DataType.VARCHAR)
     private String producer;
+    @Setter
     @Column(columnName = "line", type = DataType.VARCHAR)
     private String line;
+    @Setter
     @Column(columnName = "price", type = DataType.DOUBLE)
     private double price;
 
@@ -31,6 +33,10 @@ public class Product {
         this.producer = producer;
         this.line = line;
         this.price = price;
+    }
+
+    public Product() {
+        this.id = autoId++;
     }
 
     @Override

@@ -16,7 +16,7 @@ public class Main {
 
 //        Sort.selectionSort(arrayNumber);
 
-//        Sort.insertionSort(arrayNumber);
+        Sort.insertionSort(arrayNumber);
 
 //        MergeSort ms = new MergeSort();
 //        ms.sort(arrayNumber, 0, arrayNumber.length - 1);

@@ -1,7 +1,5 @@
 package sort;
 
-import java.util.Arrays;
-
 public class MergeSort {
     public void sort(int[] arr, int left, int right) {
 
