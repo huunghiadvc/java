@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import static const_.StringSql.*;
 
-public class ClauseBuilder {
+public class CreateSqlClause {
     public static String insertBuilder(String tableName, List<Column> columnName){
         StringBuilder result = new StringBuilder()
                 .append(INSERT_INTO.val)

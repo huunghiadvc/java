@@ -2,10 +2,8 @@ package utils.SqlBuilder;
 
 import annotations.data.Column;
 import entity.SearchEngine;
-
+import static utils.SqlBuilder.CreateSqlClause.*;
 import java.util.List;
-
-import static utils.SqlBuilder.ClauseBuilder.*;
 
 public class SqlBuilder {
     public static String insert(String tableName, List<Column> columnName){

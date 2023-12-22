@@ -1,4 +1,4 @@
-package utils.SqlBuilder.ClauseBuilder;
+package utils.SqlBuilder.WhereClauseBuilder;
 
 import annotations.data.Column;
 import const_.StringSql;
