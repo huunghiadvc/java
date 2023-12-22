@@ -1,7 +1,7 @@
-package service;
+package service.student;
 
-import dao.FileService;
-import dao.impl.FileServiceImpl;
+import config.dao.FileService;
+import config.dao.impl.FileServiceImpl;
 import entity.Student;
 import java.util.ArrayList;
 import java.util.List;

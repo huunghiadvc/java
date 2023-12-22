@@ -1,10 +1,6 @@
 package utils.statement;
 
 import annotations.data.Column;
-import annotations.data.Id;
-import entity.*;
-
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -42,7 +38,10 @@ public class StatementUtils {
 
     public static void setValues(PreparedStatement preStmt, List<String> values) {
         try {
+            System.out.println(preStmt);
+            System.out.println(values.size());
             for (int i = 0; i < values.size(); i++) {
+                System.err.println(i);
                 preStmt.setObject(i+1, values.get(i));
             }
         } catch (SQLException e) {

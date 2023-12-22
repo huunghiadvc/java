@@ -4,7 +4,7 @@ import const_.StringSql;
 import entity.Product;
 import entity.SearchEngine;
 import entity.repo.ProductRepo;
-import service.ProductService;
+import service.product.ProductService;
 import service.repo.ProductRepoService;
 import utils.validate.ValidateUtils;
 
@@ -204,10 +204,10 @@ public class Controller {
             SearchEngine searchEngine;
             if (limit_offset[0] != null){
                 searchEngine =
-                        new SearchEngine(columnNameList, valueList, operatorList, extendConditionList, limit_offset);
+                        new SearchEngine(columnNameList, valueList, operatorList, extendConditionList);
             } else {
                 searchEngine =
-                        new SearchEngine(columnNameList, valueList, operatorList, extendConditionList, null);
+                        new SearchEngine(columnNameList, valueList, operatorList, extendConditionList);
             }
             return searchEngine;
         }

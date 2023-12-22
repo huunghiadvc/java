@@ -16,23 +16,18 @@ public class SearchEngine {
     private List<String> valueList;
     private List<Operator> operatorList;
     private List<ExtendCondition> conditionList;
-    private Integer[] limit_offset;
 
     public SearchEngine(String column, Operator operator, String value){
-        assignValue(column, operator, value, null, null);
+        assignValue(column, operator, value, null);
     }
 
     public SearchEngine(List<String> column, List<Operator> operator, List<String> value,
-                        ExtendCondition condition, Integer[] limitOffset){
-        assignValue(column, operator, value, condition, limitOffset);
-    }
-
-    public SearchEngine(String column, Operator operator, String value, Integer[] limitOffset){
-        assignValue(column, operator, value, null, limitOffset);
+                        ExtendCondition condition){
+        assignValue(column, operator, value, condition);
     }
 
     public void assignValue(String column, Operator operator, String value,
-                            ExtendCondition condition, Integer[] limitOffset){
+                            ExtendCondition condition){
         if (columnList == null){
             columnList = new ArrayList<>();
         }
@@ -54,14 +49,10 @@ public class SearchEngine {
             }
             conditionList.add(condition);
         }
-
-        if (limitOffset != null){
-            limit_offset = limitOffset;
-        }
     }
 
     public void assignValue(List<String> column, List<Operator> operator, List<String> value,
-                            ExtendCondition condition, Integer[] limitOffset){
+                            ExtendCondition condition){
         if (columnList == null){
             columnList = new ArrayList<>();
         }
@@ -82,10 +73,6 @@ public class SearchEngine {
                 conditionList = new ArrayList<>();
             }
             conditionList.add(condition);
-        }
-
-        if (limitOffset != null){
-            limit_offset = limitOffset;
         }
     }
 }

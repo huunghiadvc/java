@@ -1,7 +1,7 @@
-import dao.JpaRepo;
+import config.dao.JpaRepo;
 import entity.Product;
 import entity.repo.ProductRepo;
-import service.ProductService;
+import service.product.ProductService;
 import utils.Controller;
 import utils.MenuUtils;
 

@@ -1,7 +1,7 @@
-package service;
+package service.product;
 
 import annotations.data.Column;
-import dao.impl.JpaRepoImpl;
+import config.dao.impl.JpaRepoImpl;
 import entity.Product;
 import utils.InputUtils;
 import utils.validate.ValidateUtils;
@@ -86,11 +86,12 @@ public class ProductService extends JpaRepoImpl<Product> {
             System.out.println("Please enter new product " + col.columnName() + " :");
             System.out.println("This step can be skip with null");
             input = InputUtils.getString();
-            if (input == null){
+            if (input == null || input.isEmpty()){
                 continue;
             }
             result.put(col.columnName(), input);
         }
+        System.out.println(result);
         return result;
     }
 }
