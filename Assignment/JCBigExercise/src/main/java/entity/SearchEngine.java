@@ -16,6 +16,8 @@ public class SearchEngine {
     private List<String> valueList;
     private List<Operator> operatorList;
     private List<ExtendCondition> conditionList;
+    private Integer limit;
+    private Integer offset;
 
     public SearchEngine(String column, Operator operator, String value){
         assignValue(column, operator, value, null);

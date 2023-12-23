@@ -86,6 +86,10 @@ public class SqlClauseBuilder {
             }
         }
 
+        if (searchEngine.getLimit() != null){
+            whereClause.append(limitOffsetClause(searchEngine.getLimit(), searchEngine.getOffset()));
+        }
+
         return whereClause.toString();
     }
 
