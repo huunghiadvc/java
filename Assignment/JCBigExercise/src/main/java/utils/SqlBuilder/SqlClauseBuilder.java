@@ -2,14 +2,14 @@ package utils.SqlBuilder;
 
 import annotations.data.Column;
 import entity.SearchEngine;
-import utils.SqlBuilder.WhereClauseFactory.InBetweenCondition;
-import utils.SqlBuilder.WhereClauseFactory.NormalCondition;
+import utils.SqlBuilder.WhereClauseBuilder.InBetweenCondition;
+import utils.SqlBuilder.WhereClauseBuilder.NormalCondition;
 
 import java.util.ArrayList;
 import java.util.List;
 import static const_.StringSql.*;
 
-public class CreateSqlClause {
+public class SqlClauseBuilder {
     public static String insertBuilder(String tableName, List<Column> columnName){
         StringBuilder result = new StringBuilder()
                 .append(INSERT_INTO.val)

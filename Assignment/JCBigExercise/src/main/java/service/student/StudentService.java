@@ -1,6 +1,6 @@
 package service.student;
 
-import config.dao.impl.JpaRepoImpl;
+import dao.impl.JpaRepoImpl;
 import entity.Student;
 
 import java.sql.ResultSet;

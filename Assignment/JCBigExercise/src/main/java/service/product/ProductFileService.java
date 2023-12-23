@@ -1,7 +1,7 @@
 package service.product;
 
-import config.dao.FileService;
-import config.dao.impl.FileServiceImpl;
+import dao.FileService;
+import dao.impl.FileServiceImpl;
 import entity.Product;
 import entity.repo.ProductRepo;
 import org.apache.commons.lang3.StringUtils;

@@ -1,7 +1,7 @@
 package service.product;
 
 import annotations.data.Column;
-import config.dao.impl.JpaRepoImpl;
+import dao.impl.JpaRepoImpl;
 import entity.Product;
 import utils.InputUtils;
 import utils.validate.ValidateUtils;

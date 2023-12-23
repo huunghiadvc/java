@@ -1,4 +1,4 @@
-import config.dao.JpaRepo;
+import dao.JpaRepo;
 import entity.Product;
 import entity.repo.ProductRepo;
 import service.product.ProductService;

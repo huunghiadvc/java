@@ -1,4 +1,4 @@
-package utils.SqlBuilder.WhereClauseFactory;
+package utils.SqlBuilder.WhereClauseBuilder;
 
 import static const_.StringSql.Operator;
 

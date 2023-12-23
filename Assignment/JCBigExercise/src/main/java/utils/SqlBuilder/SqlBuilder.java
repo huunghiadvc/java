@@ -2,7 +2,7 @@ package utils.SqlBuilder;
 
 import annotations.data.Column;
 import entity.SearchEngine;
-import static utils.SqlBuilder.CreateSqlClause.*;
+import static utils.SqlBuilder.SqlClauseBuilder.*;
 import java.util.List;
 
 public class SqlBuilder {
