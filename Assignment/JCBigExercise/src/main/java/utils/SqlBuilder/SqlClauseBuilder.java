@@ -4,6 +4,7 @@ import annotations.data.Column;
 import entity.SearchEngine;
 import utils.SqlBuilder.WhereClauseBuilder.InBetweenCondition;
 import utils.SqlBuilder.WhereClauseBuilder.NormalCondition;
+import utils.SqlBuilder.test.SearchBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,14 +62,15 @@ public class SqlClauseBuilder {
 
     public static String whereBuilder(SearchEngine searchEngine){
         StringBuilder whereClause = new StringBuilder(WHERE.val);
+
         if (searchEngine.getOperatorList().size() == 1){
             Operator operator = searchEngine.getOperatorList().getFirst();
             String columnName = searchEngine.getColumnList().getFirst();
             switch (operator){
 
-                case IN, BETWEEN -> whereClause.append(new InBetweenCondition(columnName, operator));
+                case IN, BETWEEN -> whereClause.append(new InBetweenCondition(columnName, operator.val));
 
-                default -> whereClause.append(new NormalCondition(columnName, operator));
+                default -> whereClause.append(new NormalCondition(columnName, operator.val));
             }
         } else {
             for (int i = 0; i < searchEngine.getColumnList().size(); i++) {
@@ -76,12 +78,12 @@ public class SqlClauseBuilder {
                 String col = searchEngine.getColumnList().get(i);
                 switch (operator){
 
-                    case IN, BETWEEN -> whereClause.append(new InBetweenCondition(col, operator));
+                    case IN, BETWEEN -> whereClause.append(new InBetweenCondition(col, operator.val));
 
-                    default -> whereClause.append(new NormalCondition(col, operator));
+                    default -> whereClause.append(new NormalCondition(col, operator.val));
                 }
                 if (i < searchEngine.getColumnList().size() - 1){
-                    whereClause.append(searchEngine.getConditionList().get(i).val);
+                    whereClause.append(searchEngine.getExtendList().get(i).val);
                 }
             }
         }
@@ -96,7 +98,6 @@ public class SqlClauseBuilder {
     public static String whereBuilder(String column){
         return WHERE.val + column + EQUAL.val + QUESTION_MARK.val;
     }
-
     public static String limitOffsetClause(Integer limit, Integer offset){
         if (offset == null){
             return LIMIT.val + limit;

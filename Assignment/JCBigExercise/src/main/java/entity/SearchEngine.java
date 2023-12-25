@@ -15,7 +15,7 @@ public class SearchEngine {
     private List<String> columnList;
     private List<String> valueList;
     private List<Operator> operatorList;
-    private List<ExtendCondition> conditionList;
+    private List<ExtendCondition> extendList;
     private Integer limit;
     private Integer offset;
 
@@ -46,10 +46,10 @@ public class SearchEngine {
         valueList.add(value);
 
         if (condition != null){
-            if (conditionList == null){
-                conditionList = new ArrayList<>();
+            if (extendList == null){
+                extendList = new ArrayList<>();
             }
-            conditionList.add(condition);
+            extendList.add(condition);
         }
     }
 
@@ -71,10 +71,10 @@ public class SearchEngine {
         valueList.addAll(value);
 
         if (condition != null){
-            if (conditionList == null){
-                conditionList = new ArrayList<>();
+            if (extendList == null){
+                extendList = new ArrayList<>();
             }
-            conditionList.add(condition);
+            extendList.add(condition);
         }
     }
 }

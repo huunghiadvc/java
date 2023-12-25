@@ -202,14 +202,15 @@ public class Controller {
                 }
             }
             SearchEngine searchEngine;
-            if (limit_offset[0] != null){
-                searchEngine =
-                        new SearchEngine(columnNameList, valueList, operatorList, extendConditionList);
-            } else {
-                searchEngine =
-                        new SearchEngine(columnNameList, valueList, operatorList, extendConditionList);
-            }
-            return searchEngine;
+//            if (limit_offset[0] != null){
+//                searchEngine =
+//                        new SearchEngine(columnNameList, valueList, operatorList, extendConditionList);
+//            } else {
+//                searchEngine =
+//                        new SearchEngine(columnNameList, valueList, operatorList, extendConditionList);
+//            }
+//            return searchEngine;
+            return null;
         }
         public static Operator getOperator(String index){
             Operator operator = null;

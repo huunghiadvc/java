@@ -1,23 +1,22 @@
 package utils.SqlBuilder.WhereClauseBuilder;
 
+import lombok.AllArgsConstructor;
+
 import static const_.StringSql.*;
 
-public class NormalCondition extends ConditionFactory {
+@AllArgsConstructor
+public class NormalCondition {
+    private final String column;
+    private final String operator;
 
-    public NormalCondition(String column, Operator operator) {
-        super(column, operator);
-    }
-
-    @Override
     public StringBuilder conditionBuilder() {
         return new StringBuilder(column)
-                .append(operator.val)
+                .append(operator)
                 .append(QUESTION_MARK.val)
                 .append(SPACE.val)
                 ;
     }
 
-    @Override
     public String toString() {
         return conditionBuilder().toString();
     }

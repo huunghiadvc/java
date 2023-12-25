@@ -1,13 +1,13 @@
 package utils.SqlBuilder.WhereClauseBuilder;
 
+import lombok.AllArgsConstructor;
+
 import static const_.StringSql.*;
 
-public class InBetweenCondition extends ConditionFactory {
-    public InBetweenCondition(String column, Operator operator) {
-        super(column, operator);
-    }
-
-    @Override
+@AllArgsConstructor
+public class InBetweenCondition {
+    private final String column;
+    private final String operator;
     public StringBuilder conditionBuilder() {
         return new StringBuilder(column)
                 .append(operator)
@@ -19,7 +19,6 @@ public class InBetweenCondition extends ConditionFactory {
                 .append(SPACE.val);
     }
 
-    @Override
     public String toString() {
         return conditionBuilder().toString();
     }
